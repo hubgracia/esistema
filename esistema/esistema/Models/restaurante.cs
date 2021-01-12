@@ -240,27 +240,11 @@ namespace elocal.Models
     {
         public int restid { get; set; }
 
-        public string restNome { get; set; }
+        public int cardapioid { get; set; }
 
-        public string restCep { get; set; }
+        public List<Resthora> horas { get; set; }
 
-        public string restEnde { get; set; }
-
-        public string locStatus { get; set; }
-
-        public string cnpj { get; set; }
-
-        public string restInicio { get; set; }
-
-        public string restFim { get; set; }
-
-        public string locInicio { get; set; }
-
-        public string locFim { get; set; }
-
-        public List<hora> horas { get; set; }
-
-        public class hora
+        public class Resthora
         {
             public int dia { get; set; }
             public string abre { get; set; }

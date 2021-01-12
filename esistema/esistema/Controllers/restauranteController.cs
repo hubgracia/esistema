@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
+
 using elocal.Models;
+using static elocal.Models.restauranteHora;
 
 namespace elocal.Controllers
 {
@@ -840,24 +840,23 @@ namespace elocal.Controllers
             return uf;
         }
 
-        private static restauranteHora leHora(int id)
+        public static Models.restauranteHora leHora(int id)
         {
             restauranteHora restx = new restauranteHora { };
+            List<restauranteHora> lista = new List<restauranteHora>();
             restx.restid = 0;
-            restx.restNome = "";
-            restx.restCep = "";
-            restx.restEnde = "";
-            restx.cnpj = "";
 
 
-            List<hora> horas = new List<hora>();
+            List<Resthora> horas = new List<Resthora>();
             Int16 tabela = 0;
             byte flgLJ = 0;
+            
 
             string connStr = ConfigurationManager.ConnectionStrings["connWebConfig"].ConnectionString;
 
             string cmdStr = "select l.Loja,l.NomLj,l.CepLj,l.EndLj,l.BaiLj,l.CidLj,l.UfLj,l.CNPJ,";
             cmdStr = cmdStr + "cast(d.flgdg%100 & 9 as tinyint),a.LjR,cast(a.TxEnt as smallint),convert(char(5),dateadd(hh,fuso,h.HrA),8),convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,h.HrF)),8), ";
+            cmdStr = cmdStr + "IsNull(h.delMin,0),IsNull(h.locMin,0),IsNull(h.feijao,'m'),IsNull(h.cardapio,6),";
             cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrADom),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrFDom)),8),";
             cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA2a6),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF2a6)),8),";
             cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA3),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF3)),8),";
@@ -872,50 +871,42 @@ namespace elocal.Controllers
             using (var conn = new SqlConnection(connStr))
             {
                 conn.Open();
-
                 var cmd = new SqlCommand(cmdStr, conn);
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
                     restx.restid = dr.GetInt16(0);
-                    restx.restNome = dr.GetString(1).TrimEnd();
-                    restx.restCep = dr.GetString(2).TrimEnd();
-                    restx.restEnde = dr.GetString(3).TrimEnd();
-                    restx.cnpj = dr.GetString(7).TrimEnd();
+
 
                     flgLJ = dr.GetByte(8);
 
-                    restx.restInicio = dr.GetString(11).TrimEnd();
-                    restx.restFim = dr.GetString(12).TrimEnd();
 
-                    restx.locInicio = dr.GetString(11).TrimEnd();
-                    restx.locFim = dr.GetString(12).TrimEnd();
-                    restx.locStatus = dr.GetString(16);
-
-                    tabela = (short)Convert.ToInt32(dr[0]);
-
-               //     tabela = dr.GetInt16(16);
-
-                    
-
-            /*        for (int i = 0; i < 7; i++)
+                    tabela = dr.GetInt16(16);
+                    for (int i = 0; i < 7; i++)
                     {
-                        horas.Add(new hora
+                        horas.Add(new Resthora
                         {
                             dia = i + 1,
                             abre = dr.GetString(17 + 2 * i).TrimEnd(),
                             fecha = dr.GetString(18 + 2 * i).TrimEnd()
+
                         });
-
-                    }*/
-
+                    }
                 }
                 dr.Close();
+        
+                 restx.horas = horas;
+                
+
+
+                if (flgLJ == 0 || flgLJ == 8) { tabela = 0; }
+                restx.cardapioid = tabela;
 
 
 
 
                 return restx;
+
             }
         }
 
