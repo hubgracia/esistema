@@ -178,6 +178,7 @@ namespace elocal.Models
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }
+        public int restid { get; internal set; }
     }
 
     /// <summary>
@@ -244,6 +245,10 @@ namespace elocal.Models
 
         public List<Resthora> horas { get; set; }
 
+
+
+
+
         public class Resthora
         {
             public int dia { get; set; }
@@ -251,4 +256,24 @@ namespace elocal.Models
             public string fecha { get; set; }
         }
     }
+    /// <summary>
+    /// Horario do restaurante
+    /// </summary>
+    public class horarios
+    {
+        public int restid { get; set; }
+        /// <summary>
+        /// Lista dos horarios de abertura e fechamento do restaurante.
+        /// </summary>
+        /// 
+        [RegularExpression(@"^(?:[01][0-9]|2[0-3]):[0-5][0-9]$")]
+        public List<hora> horas { get; set; }
+
+        public int cardapioid { get; set; }
+
+        [Required, StringLength(1 - 7)]
+        public int dia { get; set; }
+
+    }
+
 }

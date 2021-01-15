@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using System.Web;
 using elocal.Models;
 using static elocal.Models.restauranteHora;
 
@@ -68,8 +69,10 @@ namespace elocal.Controllers
                     restBairro = dr.GetString(4).TrimEnd();
                     restCid = dr.GetString(5).TrimEnd();
                     restUf = dr.GetString(6).TrimEnd();
-                    if (restUf=="DF" && restCid != "Brasília") {
-                        if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0) {
+                    if (restUf == "DF" && restCid != "Brasília")
+                    {
+                        if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0)
+                        {
                             restBairro = restBairro + " - " + restCid;
                         }
                         restCid = "Brasília";
@@ -90,7 +93,8 @@ namespace elocal.Controllers
                     restx.delmin = Math.Round(dr.GetDecimal(13), 2);
                     restx.locmin = Math.Round(dr.GetDecimal(14), 2);
                     restx.feijao = "marrom";
-                    if (dr.GetString(15).TrimEnd() == "p") {
+                    if (dr.GetString(15).TrimEnd() == "p")
+                    {
                         restx.feijao = "preto";
                     }
                     tabela = dr.GetInt16(16);
@@ -287,15 +291,15 @@ namespace elocal.Controllers
                     Int16 tabela = 0;
 
                     restx.cardapiolocid = 0;
-					cmdStr = "select d.codCardapio from eportal.dbo.loja d, giraffas.dbo.giraffasljdg g, giraffas.dbo.giraffaslj l";
-					cmdStr = cmdStr + " where d.codLoja=g.codDG and g.loja=l.Loja and l.flglj&8>0 and g.flgdg>100 and (g.flgdg%100 & 8)>0 and g.loja=" + loja.ToString();
-					cmd = new SqlCommand(cmdStr, conn);
-					dr = cmd.ExecuteReader();
-					if (dr.Read())
-					{
-						restx.cardapiolocid = dr.GetInt32(0);
-					}
-					dr.Close();
+                    cmdStr = "select d.codCardapio from eportal.dbo.loja d, giraffas.dbo.giraffasljdg g, giraffas.dbo.giraffaslj l";
+                    cmdStr = cmdStr + " where d.codLoja=g.codDG and g.loja=l.Loja and l.flglj&8>0 and g.flgdg>100 and (g.flgdg%100 & 8)>0 and g.loja=" + loja.ToString();
+                    cmd = new SqlCommand(cmdStr, conn);
+                    dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        restx.cardapiolocid = dr.GetInt32(0);
+                    }
+                    dr.Close();
 
                     cmdStr = "select l.NomLj,l.CepLj,l.EndLj,l.BaiLj,l.CidLj,l.UfLj,l.CNPJ,convert(char(5),h.HrA,8) HrA,convert(char(5),h.HrF,8) HrF";
                     cmdStr = cmdStr + ",cast(d.flgdg%100 & 9 as tinyint),";
@@ -319,8 +323,10 @@ namespace elocal.Controllers
                         restBairro = dr.GetString(3).TrimEnd();
                         restCid = dr.GetString(4).TrimEnd();
                         restUf = dr.GetString(5).TrimEnd();
-                        if (restUf == "DF" && restCid != "Brasília") {
-                            if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0) {
+                        if (restUf == "DF" && restCid != "Brasília")
+                        {
+                            if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0)
+                            {
                                 restBairro = restBairro + " - " + restCid;
                             }
                             restCid = "Brasília";
@@ -330,16 +336,20 @@ namespace elocal.Controllers
                         restx.restUf = restUf;
                         restx.cnpj = dr.GetString(6).TrimEnd();
                         restx.restInicio = dr.GetString(7).TrimEnd();
-                        if (HrRF.Length == 0) {
+                        if (HrRF.Length == 0)
+                        {
                             restx.restFim = dr.GetString(8).TrimEnd();
-                        } else {
+                        }
+                        else
+                        {
                             restx.restFim = HrRF;
                         }
                         flgLJ = dr.GetByte(9);
                         restx.delmin = Math.Round(dr.GetDecimal(10), 2);
                         restx.locmin = Math.Round(dr.GetDecimal(11), 2);
                         restx.feijao = "marrom";
-                        if (dr.GetString(12).TrimEnd() == "p") {
+                        if (dr.GetString(12).TrimEnd() == "p")
+                        {
                             restx.feijao = "preto";
                         }
                         tabela = dr.GetInt16(13);
@@ -348,9 +358,9 @@ namespace elocal.Controllers
                             horas.Add(new hora
                             {
                                 dia = i + 1,
-                                abre = dr.GetString(14+2*i).TrimEnd(),
-                                fecha=dr.GetString(15+2*i).TrimEnd()
-                            }) ;
+                                abre = dr.GetString(14 + 2 * i).TrimEnd(),
+                                fecha = dr.GetString(15 + 2 * i).TrimEnd()
+                            });
                         }
                     }
                     dr.Close();
@@ -390,7 +400,7 @@ namespace elocal.Controllers
         private static List<restaurante> leRestsx(string cep, string uf)
         {
             List<restaurante> lista = new List<restaurante>();
-        //  restaurante restx = new restaurante { };
+            //  restaurante restx = new restaurante { };
             List<int> lojas = new List<int>();
             List<int> tempos = new List<int>();
             int ljj = 0;
@@ -451,7 +461,7 @@ namespace elocal.Controllers
                     txent = Math.Round(dr.GetDecimal(5), 2);
                     miHrR = dr.GetInt32(6);
                     HrRF = dr.GetString(7).TrimEnd(' ');
-                    if (dr.GetInt32(8)==0) { temDelivery = false; }
+                    if (dr.GetInt32(8) == 0) { temDelivery = false; }
                 }
                 dr.Close();
 
@@ -467,7 +477,9 @@ namespace elocal.Controllers
                             lojas.Add(loja);
                             tempos.Add(tmpent);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         //Vendo se é Comutada ou Concorrência
                         if (ljx < 0)
                         {
@@ -558,8 +570,10 @@ namespace elocal.Controllers
                         restBairro = dr.GetString(3).TrimEnd();
                         restCid = dr.GetString(4).TrimEnd();
                         restUf = dr.GetString(5).TrimEnd();
-                        if (restUf == "DF" && restCid != "Brasília") {
-                            if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0) {
+                        if (restUf == "DF" && restCid != "Brasília")
+                        {
+                            if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0)
+                            {
                                 restBairro = restBairro + " - " + restCid;
                             }
                             restCid = "Brasília";
@@ -569,16 +583,20 @@ namespace elocal.Controllers
                         restx.restUf = restUf;
                         restx.cnpj = dr.GetString(6).TrimEnd();
                         restx.restInicio = dr.GetString(7).TrimEnd();
-                        if (HrRF.Length == 0) {
+                        if (HrRF.Length == 0)
+                        {
                             restx.restFim = dr.GetString(8).TrimEnd();
-                        } else {
+                        }
+                        else
+                        {
                             restx.restFim = HrRF;
                         }
                         flgLJ = dr.GetByte(9);
                         restx.delmin = Math.Round(dr.GetDecimal(10), 2);
                         restx.locmin = Math.Round(dr.GetDecimal(11), 2);
                         restx.feijao = "marrom";
-                        if (dr.GetString(12).TrimEnd() == "p") {
+                        if (dr.GetString(12).TrimEnd() == "p")
+                        {
                             restx.feijao = "preto";
                         }
                         tabela = dr.GetInt16(13);
@@ -722,8 +740,10 @@ namespace elocal.Controllers
                         restBairro = dr.GetString(3).TrimEnd();
                         restCid = dr.GetString(4).TrimEnd();
                         restUf = dr.GetString(5).TrimEnd();
-                        if (restUf == "DF" && restCid != "Brasília") {
-                            if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0) {
+                        if (restUf == "DF" && restCid != "Brasília")
+                        {
+                            if (restBairro.ToLower().IndexOf(restCid.ToLower()) < 0)
+                            {
                                 restBairro = restBairro + " - " + restCid;
                             }
                             restCid = "Brasília";
@@ -733,15 +753,19 @@ namespace elocal.Controllers
                         restx.restUf = restUf;
                         restx.cnpj = dr.GetString(6).TrimEnd();
                         restx.restInicio = dr.GetString(7).TrimEnd(' ');
-                        if (HrRF.Length == 0) {
+                        if (HrRF.Length == 0)
+                        {
                             restx.restFim = dr.GetString(8).TrimEnd(' ');
-                        } else {
+                        }
+                        else
+                        {
                             restx.restFim = HrRF;
                         }
                         restx.delmin = Math.Round(dr.GetDecimal(9), 2);
                         restx.locmin = Math.Round(dr.GetDecimal(10), 2);
                         restx.feijao = "marrom";
-                        if (dr.GetString(11).TrimEnd() == "p") {
+                        if (dr.GetString(11).TrimEnd() == "p")
+                        {
                             restx.feijao = "preto";
                         }
                         tabela = dr.GetInt16(12);
@@ -842,6 +866,7 @@ namespace elocal.Controllers
 
         public static Models.restauranteHora leHora(int id)
         {
+            
             restauranteHora restx = new restauranteHora { };
             List<restauranteHora> lista = new List<restauranteHora>();
             restx.restid = 0;
@@ -850,7 +875,7 @@ namespace elocal.Controllers
             List<Resthora> horas = new List<Resthora>();
             Int16 tabela = 0;
             byte flgLJ = 0;
-            
+
 
             string connStr = ConfigurationManager.ConnectionStrings["connWebConfig"].ConnectionString;
 
@@ -864,7 +889,7 @@ namespace elocal.Controllers
             cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA5),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF5)),8),";
             cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA6),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF6)),8),";
             cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrASab),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrFSab)),8)";
-     
+
             cmdStr = cmdStr + " from giraffas.dbo.giraffaslj l,giraffas.dbo.giraffasljdg d,giraffas.dbo.giraffasAr a,giraffas.dbo.giraffasljAF h";
             cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja=" + id.ToString();
 
@@ -876,11 +901,7 @@ namespace elocal.Controllers
                 if (dr.Read())
                 {
                     restx.restid = dr.GetInt16(0);
-
-
                     flgLJ = dr.GetByte(8);
-
-
                     tabela = dr.GetInt16(16);
                     for (int i = 0; i < 7; i++)
                     {
@@ -894,9 +915,11 @@ namespace elocal.Controllers
                     }
                 }
                 dr.Close();
-        
-                 restx.horas = horas;
+
                 
+
+                restx.horas = horas;
+
 
 
                 if (flgLJ == 0 || flgLJ == 8) { tabela = 0; }
@@ -908,8 +931,97 @@ namespace elocal.Controllers
                 return restx;
 
             }
+
         }
 
+        private horarios horarios (int id)
+        {
+            string msg = "";
+            horarios horax = new horarios { };
+            List<horarios> lista = new List<horarios>();
+            horax.restid = 0;
+
+            List<hora> horas = new List<hora>();
+            Int16 tabela = 0;
+            byte flgLJ = 0;
+
+            string connStr = ConfigurationManager.ConnectionStrings["connWebConfig"].ConnectionString;
+
+            string cmdStr = "select l.Loja,l.NomLj,l.CepLj,l.EndLj,l.BaiLj,l.CidLj,l.UfLj,l.CNPJ,";
+            cmdStr = cmdStr + "cast(d.flgdg%100 & 9 as tinyint),a.LjR,cast(a.TxEnt as smallint),convert(char(5),dateadd(hh,fuso,h.HrA),8),convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,h.HrF)),8), ";
+            cmdStr = cmdStr + "IsNull(h.delMin,0),IsNull(h.locMin,0),IsNull(h.feijao,'m'),IsNull(h.cardapio,6),";
+            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrADom),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrFDom)),8),";
+            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA2a6),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF2a6)),8),";
+            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA3),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF3)),8),";
+            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA4),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF4)),8),";
+            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA5),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF5)),8),";
+            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA6),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF6)),8),";
+            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrASab),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrFSab)),8)";
+
+            cmdStr = cmdStr + " from giraffas.dbo.giraffaslj l,giraffas.dbo.giraffasljdg d,giraffas.dbo.giraffasAr a,giraffas.dbo.giraffasljAF h";
+            cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja=" + id.ToString();
+
+            using (var conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                var cmd = new SqlCommand(cmdStr, conn);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    horax.restid = dr.GetInt16(0);
+
+
+                    flgLJ = dr.GetByte(8);
+
+
+                    tabela = dr.GetInt16(16);
+                    for (int i = 0; i < 7; i++)
+                    {
+                        horas.Add(new hora
+                        {
+                            dia = i + 1,
+                            abre = dr.GetString(17 + 2 * i).TrimEnd(),
+                            fecha = dr.GetString(18 + 2 * i).TrimEnd()
+
+                        });
+                    }
+                }
+                dr.Close();
+
+                if (horax.restid > 0)
+                {
+                                                                                                       
+                    cmdStr = cmdStr + " from giraffas.dbo.giraffaslj l,giraffas.dbo.giraffasljdg d,giraffas.dbo.giraffasAr a,giraffas.dbo.giraffasljAF h";
+                    cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja=" + id.ToString();
+                    cmdStr = "update giraffas.dbo.enome set dia='" +/* horax.restid */("'", "''") + "' where";
+                    cmdStr = cmdStr + " dia='" + horax.horas + "' and abre='" + horax.horas + "'" + " fecha= '" + horax.horas;
+                    cmd = new SqlCommand(cmdStr, conn);
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    msg = "Sem Restaurante ou Delivery identificado";
+                }
+
+                conn.Close();
+
+                //horax.horas = horas;
+
+
+
+                if (flgLJ == 0 || flgLJ == 8) { tabela = 0; }
+                horax.cardapioid = tabela;
+
+
+
+
+               return horax;
+
+            }
+
+          //  return msg;
+
+        }
 
 
         // GET: api/restaurante
@@ -1170,7 +1282,7 @@ namespace elocal.Controllers
         /// <param name="lugarend">Endereço fornecido</param>
         /// <returns></returns>
         [Route(""), HttpPost]
-        public IEnumerable<restaurante> Post([FromBody]endereco lugarend)
+        public IEnumerable<restaurante> Post([FromBody] endereco lugarend)
         {
             //if (!this.ModelState.IsValid)
             // if (!this.ModelState.IsValid || !(ipAddress.Substring(0, 12) == "189.26.224.1" || ipAddress.Substring(0, 13) == "189.125.163.1" || ipAddress == "107.21.108.82" || ipAddress == "::1" || ipAddress == "177.142.79.46"))
@@ -1224,6 +1336,69 @@ namespace elocal.Controllers
                 return restx;
             }
         }
+        // POST: api/login/altera
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="horax"></param>
+        /// <returns></returns>
+        [Route("horarios/{restid}"), HttpPut]
+        public HttpResponseMessage horarios([FromBody] horarios horax)
+        {
+            
+          
+
+            if (horax.restid == 0)
+            {
+                HttpError err = new HttpError("Restaurante inexistente ou sem delivery");
+                throw new HttpResponseException(this.Request.CreateResponse(HttpStatusCode.NotFound, err));
+            }
+            else
+            {
+                 //   return horax;
+                if (!this.ModelState.IsValid || (ipspodem != "todos" && ipspodem.IndexOf("x" + ipAddress.TrimEnd() + "x") < 0))
+                {
+                    HttpError err = new HttpError("Post mal formado");
+                    throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, err));
+                }
+                else
+                {
+                //    new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(horax.restid) };
+                    string msg = horario(horax);
+                    if (msg == "") { msg = horario(horax.horas); }
+                    if (msg != "")
+                    {
+                        HttpError err = new HttpError(msg);
+                        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, err));
+                    }
+                    else
+                    {
+                        HttpMsgOK msgok = new HttpMsgOK { };
+                        msgok.msgok = "OK";
+                        HttpResponseMessage response = this.Request.CreateResponse(HttpStatusCode.OK, msgok);
+                        return response;
+                    }
+                }
+            }
+        }
+
+        private string horario(horarios horax)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string horario(List<hora> horas)
+        {
+            throw new NotImplementedException();
+        }
+
+        private class HttpMsgOK
+        {
+            public string msgok { get; set; }
+        }
     }
 }
+
+
+
