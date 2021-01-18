@@ -179,6 +179,7 @@ namespace elocal.Models
         public string abre { get; set; }
         public string fecha { get; set; }
         public int restid { get; internal set; }
+
     }
 
     /// <summary>

@@ -22,6 +22,8 @@ namespace elocal.Controllers
         private static string ipspodem = ConfigurationManager.AppSettings["ipspodem"];
         private static string cepbd = ConfigurationManager.AppSettings["cepbd"];
 
+        public int restid { get; private set; }
+
         private static restaurante leRest(int id)
         {
             restaurante restx = new restaurante { };
@@ -936,10 +938,10 @@ namespace elocal.Controllers
 
         private horarios horarios (int id)
         {
-            string msg = "";
-            horarios horax = new horarios { };
+            
+            horarios restx = new horarios { };
             List<horarios> lista = new List<horarios>();
-            horax.restid = 0;
+            restx.restid = 0;
 
             List<hora> horas = new List<hora>();
             Int16 tabela = 0;
@@ -968,7 +970,7 @@ namespace elocal.Controllers
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
-                    horax.restid = dr.GetInt16(0);
+                    restx.restid = dr.GetInt16(0);
 
 
                     flgLJ = dr.GetByte(8);
@@ -988,34 +990,34 @@ namespace elocal.Controllers
                 }
                 dr.Close();
 
-                if (horax.restid > 0)
+                if (restx.restid > 0)
                 {
                                                                                                        
                     cmdStr = cmdStr + " from giraffas.dbo.giraffaslj l,giraffas.dbo.giraffasljdg d,giraffas.dbo.giraffasAr a,giraffas.dbo.giraffasljAF h";
                     cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja=" + id.ToString();
                     cmdStr = "update giraffas.dbo.enome set dia='" +/* horax.restid */("'", "''") + "' where";
-                    cmdStr = cmdStr + " dia='" + horax.horas + "' and abre='" + horax.horas + "'" + " fecha= '" + horax.horas;
+                    cmdStr = cmdStr + " dia='" + restx.horas + "' and abre='" + restx.horas + "'" + " fecha= '" + restx.horas;
                     cmd = new SqlCommand(cmdStr, conn);
                     cmd.ExecuteNonQuery();
                 }
-                else
+/*                else
                 {
                     msg = "Sem Restaurante ou Delivery identificado";
-                }
+                }*/
 
                 conn.Close();
 
-                //horax.horas = horas;
+                restx.horas = horas;
 
 
 
                 if (flgLJ == 0 || flgLJ == 8) { tabela = 0; }
-                horax.cardapioid = tabela;
+                restx.cardapioid = tabela;
 
 
 
 
-               return horax;
+               return restx;
 
             }
 
@@ -1344,19 +1346,18 @@ namespace elocal.Controllers
         /// <param name="horax"></param>
         /// <returns></returns>
         [Route("horarios/{restid}"), HttpPut]
-        public HttpResponseMessage horarios([FromBody] horarios horax)
+        public HttpResponseMessage Alterahorarios([FromBody] hora horax)
         {
-            
-          
+            horarios restx = horarios(restid);
 
-            if (horax.restid == 0)
+            if (restid > 0)
             {
                 HttpError err = new HttpError("Restaurante inexistente ou sem delivery");
                 throw new HttpResponseException(this.Request.CreateResponse(HttpStatusCode.NotFound, err));
             }
             else
             {
-                 //   return horax;
+                
                 if (!this.ModelState.IsValid || (ipspodem != "todos" && ipspodem.IndexOf("x" + ipAddress.TrimEnd() + "x") < 0))
                 {
                     HttpError err = new HttpError("Post mal formado");
@@ -1364,9 +1365,9 @@ namespace elocal.Controllers
                 }
                 else
                 {
-                //    new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(horax.restid) };
-                    string msg = horario(horax);
-                    if (msg == "") { msg = horario(horax.horas); }
+                   
+                   string msg = "";
+                    
                     if (msg != "")
                     {
                         HttpError err = new HttpError(msg);
@@ -1381,16 +1382,6 @@ namespace elocal.Controllers
                     }
                 }
             }
-        }
-
-        private string horario(horarios horax)
-        {
-            throw new NotImplementedException();
-        }
-
-        private string horario(List<hora> horas)
-        {
-            throw new NotImplementedException();
         }
 
         private class HttpMsgOK
