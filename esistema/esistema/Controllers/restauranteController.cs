@@ -992,11 +992,72 @@ namespace elocal.Controllers
 
                 if (restx.restid > 0)
                 {
-                                                                                                       
-                    cmdStr = cmdStr + " from giraffas.dbo.giraffaslj l,giraffas.dbo.giraffasljdg d,giraffas.dbo.giraffasAr a,giraffas.dbo.giraffasljAF h";
-                    cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja=" + id.ToString();
-                    cmdStr = "update giraffas.dbo.enome set dia='" +/* horax.restid */("'", "''") + "' where";
-                    cmdStr = cmdStr + " dia='" + restx.horas + "' and abre='" + restx.horas + "'" + " fecha= '" + restx.horas;
+                    cmdStr = "update giraffas.dbo.giraffasLjAF set ";
+                    cmdStr = "HrA='1900-01-01 13:00', HxA='1900-01-01 11:00', ";
+                    cmdStr = "HrA2a6='1900-01-01 11:00', HxA2a5='1900-01-01 11:00', ";
+                    cmdStr = "HrA3='1900-01-01 11:00', HxA3='1900-01-01 11:00', ";
+                    cmdStr = "HrA4='1900-01-01 11:00', HxA4='1900-01-01 11:00', ";
+                    cmdStr = "HrA5='1900-01-01 11:00', HxA5='1900-01-01 11:00', ";
+                    cmdStr = "HrA6='1900-01-01 11:00', HxA6='1900-01-01 11:00', ";
+                    cmdStr = "HrASab='1900-01-01 11:00', HxASab='1900-01-01 11:00', ";
+                    cmdStr = "HrADom='1900-01-01 11:00', HxADom='1900-01-01 11:00', ";
+                    cmdStr = "HrF='1900-01-01 22:50', HxF='1900-01-01 22:50', ";
+                    cmdStr = "HrF2a6='1900-01-01 22:50', HxF2a5='1900-01-01 22:50', ";
+                    cmdStr = "HrF3='1900-01-01 22:50', HxF3='1900-01-01 22:50', ";
+                    cmdStr = "HrF4='1900-01-01 22:50', HxF4='1900-01-01 22:50', ";
+                    cmdStr = "HrF5='1900-01-01 22:50', HxF5= '1900-01-01 22:50', ";
+                    cmdStr = "HrF6='1900-01-01 22:50', HxF6='1900-01-01 22:50', ";
+                    cmdStr = "HrFSab='1900-01-01 22:50', HxFSab='1900-01-01 22:50', ";
+                    cmdStr = "HrFDom='1900-01-01 22:50', HxFDom='1900-01-01 22:50' ";
+                    cmdStr = "where Loja in ( 706 ) ";
+                    cmdStr = "select * from giraffas.dbo.giraffasLjAF where loja=706 ";
+
+                    foreach (hora hora in horas) {
+                        switch (hora.dia)
+                        {
+                            case 1:
+                                // Dom
+                                cmdStr = cmdStr + "HrADom='1900-01-01 " + hora.abre + ",', HxADom='1900-01-01 " + hora.abre + ",";
+                                cmdStr = cmdStr + "HrFDom='1900-01-01 " + hora.fecha + ",', HxADom='1900-01-01 " + hora.fecha + ",";
+                                break;
+
+                            case 2:
+                                //Seg
+                                cmdStr = cmdStr + "HrA2a6 ='1900-01-01 " + hora.abre + ",', HrA2a6='1900-01-01 " + hora.abre + ",";
+                                cmdStr = cmdStr + "HrF2a6 ='1900-01-01 " + hora.fecha + ",', HrF2a6='1900-01-01 " + hora.fecha + ",";
+                                break;
+                            case 3:
+                                //Ter
+                                cmdStr = cmdStr + "HrA3='1900-01-01 " + hora.abre + ",', HrA3='1900-01-01 " + hora.abre + ",";
+                                cmdStr = cmdStr + "HrF3 ='1900-01-01 " + hora.fecha + ",', HrF3='1900-01-01 " + hora.fecha + ",";
+                                break;
+                            case 4:
+                                //Qua
+                                cmdStr = cmdStr + "HrA4 ='1900-01-01 " + hora.abre + ",', HrA4='1900-01-01 " + hora.abre + ",";
+                                cmdStr = cmdStr + "HrF4 ='1900-01-01 " + hora.fecha + ",', HrF4='1900-01-01 " + hora.fecha + ",";
+                                break;
+                            case 5:
+                                //Qui
+                                cmdStr = cmdStr + "HrA5 ='1900-01-01 " + hora.abre + ",', HrA5='1900-01-01 " + hora.abre + ",";
+                                cmdStr = cmdStr + "HrF5 ='1900-01-01 " + hora.fecha + ",', HrF5='1900-01-01 " + hora.fecha + ",";
+                                break;
+                            case 6:
+                                //Sex
+                                cmdStr = cmdStr + "HrA6 ='1900-01-01 " + hora.abre + ",', HrA6='1900-01-01" + hora.abre + ",";
+                                cmdStr = cmdStr + "HrF6 ='1900-01-01 " + hora.fecha + ",', HrF6='1900-01-01" + hora.fecha + ",";
+                                break;
+                            case 7:
+                                //Sab
+                                cmdStr = cmdStr + "HrASab ='1900-01-01 " + hora.abre + ",', HrASab='1900-01-01 " + hora.abre + ",";
+                                cmdStr = cmdStr + "HrFSab ='1900-01-01 " + hora.fecha + ",', HrFSab='1900-01-01 " + hora.fecha + ",";
+                                break;
+
+                        }                 
+                    }
+                      cmdStr = cmdStr + " where loja= " + restid.ToString();
+
+
+
                     cmd = new SqlCommand(cmdStr, conn);
                     cmd.ExecuteNonQuery();
                 }
@@ -1337,6 +1398,7 @@ namespace elocal.Controllers
             {
                 return restx;
             }
+            
         }
         // POST: api/login/altera
 
@@ -1348,7 +1410,7 @@ namespace elocal.Controllers
         [Route("horarios/{restid}"), HttpPut]
         public HttpResponseMessage Alterahorarios([FromBody] hora horax)
         {
-            horarios restx = horarios(restid);
+            horarios horario = horarios(restid);
 
             if (restid > 0)
             {
@@ -1367,7 +1429,6 @@ namespace elocal.Controllers
                 {
                    
                    string msg = "";
-                    
                     if (msg != "")
                     {
                         HttpError err = new HttpError(msg);
