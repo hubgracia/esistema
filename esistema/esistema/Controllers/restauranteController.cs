@@ -1007,31 +1007,20 @@ namespace elocal.Controllers
                         straux = ",";
                         
                     } 
-             //       SqlDataReader dr = cmd.ExecuteReader();
+          
                     cmd = new SqlCommand(cmdStr, conn);
                     cmd.ExecuteNonQuery();
                     //return cmdStr;
                 }
 
-                /*  using (var conn = new SqlConnection(connStr))
-                     {
-
-                   }*/
-                              
-
-         //       return cmdStr;
 
 
 
                 conn.Close();
-                // restx = Convert.ToString
-                // restx.horas = horas;
-                //     return List<hora>;
-                
-            
+
             }
             return msg;
-            //   return restx;
+
 
         }
 
