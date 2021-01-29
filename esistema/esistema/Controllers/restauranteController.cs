@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web;
 using elocal.Models;
 using static elocal.Models.restauranteHora;
+using System.Threading.Tasks;
 
 namespace elocal.Controllers
 {
@@ -866,7 +867,7 @@ namespace elocal.Controllers
             return uf;
         }
 
-        public static Models.restauranteHora leHora(int id)
+        public Models.restauranteHora leHora(int id)
         {
             
             restauranteHora restx = new restauranteHora { };
@@ -893,7 +894,7 @@ namespace elocal.Controllers
             cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrASab),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrFSab)),8)";
 
             cmdStr = cmdStr + " from giraffas.dbo.giraffaslj l,giraffas.dbo.giraffasljdg d,giraffas.dbo.giraffasAr a,giraffas.dbo.giraffasljAF h";
-            cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja=" + id.ToString();
+            cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja= " + id.ToString() + " ";
 
             using (var conn = new SqlConnection(connStr))
             {
@@ -918,7 +919,7 @@ namespace elocal.Controllers
                 }
                 dr.Close();
 
-                
+
 
                 restx.horas = horas;
 
@@ -936,88 +937,35 @@ namespace elocal.Controllers
 
         }
 
-        private horarios horarios (int id)
+        private static async Task<string> setHoras(int id, List<hora> horas)
+       //  public static string leHoraStr(int id)     //(int id,List<hora>horas)
         {
-            
-            horarios restx = new horarios { };
-            List<horarios> lista = new List<horarios>();
-            restx.restid = 0;
-
-            List<hora> horas = new List<hora>();
-            Int16 tabela = 0;
-            byte flgLJ = 0;
-
+            string msg = "";
+            restauranteHora restx = new restauranteHora { };
+            restx.id = 0;
+                   
             string connStr = ConfigurationManager.ConnectionStrings["connWebConfig"].ConnectionString;
-
-            string cmdStr = "select l.Loja,l.NomLj,l.CepLj,l.EndLj,l.BaiLj,l.CidLj,l.UfLj,l.CNPJ,";
-            cmdStr = cmdStr + "cast(d.flgdg%100 & 9 as tinyint),a.LjR,cast(a.TxEnt as smallint),convert(char(5),dateadd(hh,fuso,h.HrA),8),convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,h.HrF)),8), ";
-            cmdStr = cmdStr + "IsNull(h.delMin,0),IsNull(h.locMin,0),IsNull(h.feijao,'m'),IsNull(h.cardapio,6),";
-            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrADom),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrFDom)),8),";
-            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA2a6),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF2a6)),8),";
-            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA3),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF3)),8),";
-            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA4),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF4)),8),";
-            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA5),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF5)),8),";
-            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrA6),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrF6)),8),";
-            cmdStr = cmdStr + " convert(char(5),dateadd(hh,fuso,HrASab),8), convert(char(5),dateadd(mi,-10,dateadd(hh,fuso,HrFSab)),8)";
-
-            cmdStr = cmdStr + " from giraffas.dbo.giraffaslj l,giraffas.dbo.giraffasljdg d,giraffas.dbo.giraffasAr a,giraffas.dbo.giraffasljAF h";
-            cmdStr = cmdStr + " where l.flglj>0 and d.flgdg>100 and d.Loja=l.Loja and a.Loja=l.Loja and a.Area=0 and h.Loja=l.Loja and l.Loja=" + id.ToString();
-
-            using (var conn = new SqlConnection(connStr))
+            string cmdStr = "select Loja from giraffas.dbo.giraffasLjAF where ";
+            cmdStr = cmdStr + " Loja='" + restx.restid + "'";
+            using (var conn = new SqlConnection(connStr)) 
             {
-                conn.Open();
+                    conn.Open();
                 var cmd = new SqlCommand(cmdStr, conn);
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read())
+                if (restx.id > 0)
                 {
-                    restx.restid = dr.GetInt16(0);
-
-
-                    flgLJ = dr.GetByte(8);
-
-
-                    tabela = dr.GetInt16(16);
-                    for (int i = 0; i < 7; i++)
-                    {
-                        horas.Add(new hora
-                        {
-                            dia = i + 1,
-                            abre = dr.GetString(17 + 2 * i).TrimEnd(),
-                            fecha = dr.GetString(18 + 2 * i).TrimEnd()
-
-                        });
-                    }
-                }
-                dr.Close();
-
-                if (restx.restid > 0)
-                {
+                    
                     cmdStr = "update giraffas.dbo.giraffasLjAF set ";
-                    cmdStr = "HrA='1900-01-01 13:00', HxA='1900-01-01 11:00', ";
-                    cmdStr = "HrA2a6='1900-01-01 11:00', HxA2a5='1900-01-01 11:00', ";
-                    cmdStr = "HrA3='1900-01-01 11:00', HxA3='1900-01-01 11:00', ";
-                    cmdStr = "HrA4='1900-01-01 11:00', HxA4='1900-01-01 11:00', ";
-                    cmdStr = "HrA5='1900-01-01 11:00', HxA5='1900-01-01 11:00', ";
-                    cmdStr = "HrA6='1900-01-01 11:00', HxA6='1900-01-01 11:00', ";
-                    cmdStr = "HrASab='1900-01-01 11:00', HxASab='1900-01-01 11:00', ";
-                    cmdStr = "HrADom='1900-01-01 11:00', HxADom='1900-01-01 11:00', ";
-                    cmdStr = "HrF='1900-01-01 22:50', HxF='1900-01-01 22:50', ";
-                    cmdStr = "HrF2a6='1900-01-01 22:50', HxF2a5='1900-01-01 22:50', ";
-                    cmdStr = "HrF3='1900-01-01 22:50', HxF3='1900-01-01 22:50', ";
-                    cmdStr = "HrF4='1900-01-01 22:50', HxF4='1900-01-01 22:50', ";
-                    cmdStr = "HrF5='1900-01-01 22:50', HxF5= '1900-01-01 22:50', ";
-                    cmdStr = "HrF6='1900-01-01 22:50', HxF6='1900-01-01 22:50', ";
-                    cmdStr = "HrFSab='1900-01-01 22:50', HxFSab='1900-01-01 22:50', ";
-                    cmdStr = "HrFDom='1900-01-01 22:50', HxFDom='1900-01-01 22:50' ";
-                    cmdStr = "where Loja in ( 706 ) ";
-                    cmdStr = "select * from giraffas.dbo.giraffasLjAF where loja=706 ";
-
-                    foreach (hora hora in horas) {
+                    cmd = new SqlCommand(cmdStr, conn);
+                    cmd.ExecuteNonQuery();
+              
+                    List<hora> horasx = new List<hora>();
+                    foreach (hora hora in horasx)
+                    {
                         switch (hora.dia)
                         {
                             case 1:
                                 // Dom
-                                cmdStr = cmdStr + "HrADom='1900-01-01 " + hora.abre + ",', HxADom='1900-01-01 " + hora.abre + ",";
+                                cmdStr = cmdStr + "HrADom='1900-01-01 " + hora.abre + ",', HxADom='1900-01-01" + hora.abre + ",";
                                 cmdStr = cmdStr + "HrFDom='1900-01-01 " + hora.fecha + ",', HxADom='1900-01-01 " + hora.fecha + ",";
                                 break;
 
@@ -1051,38 +999,39 @@ namespace elocal.Controllers
                                 cmdStr = cmdStr + "HrASab ='1900-01-01 " + hora.abre + ",', HrASab='1900-01-01 " + hora.abre + ",";
                                 cmdStr = cmdStr + "HrFSab ='1900-01-01 " + hora.fecha + ",', HrFSab='1900-01-01 " + hora.fecha + ",";
                                 break;
+                                
 
-                        }                 
-                    }
-                      cmdStr = cmdStr + " where loja= " + restid.ToString();
-
-
-
+                        }
+                        string straux = "";
+                        cmdStr = straux + cmdStr + " where loja= " + restx.restid.ToString();
+                        straux = ",";
+                        
+                    } 
+             //       SqlDataReader dr = cmd.ExecuteReader();
                     cmd = new SqlCommand(cmdStr, conn);
                     cmd.ExecuteNonQuery();
+                    //return cmdStr;
                 }
-/*                else
-                {
-                    msg = "Sem Restaurante ou Delivery identificado";
-                }*/
+
+                /*  using (var conn = new SqlConnection(connStr))
+                     {
+
+                   }*/
+                              
+
+         //       return cmdStr;
+
+
 
                 conn.Close();
-
-                restx.horas = horas;
-
-
-
-                if (flgLJ == 0 || flgLJ == 8) { tabela = 0; }
-                restx.cardapioid = tabela;
-
-
-
-
-               return restx;
-
+                // restx = Convert.ToString
+                // restx.horas = horas;
+                //     return List<hora>;
+                
+            
             }
-
-          //  return msg;
+            return msg;
+            //   return restx;
 
         }
 
@@ -1398,28 +1347,30 @@ namespace elocal.Controllers
             {
                 return restx;
             }
-            
+
         }
-        // POST: api/login/altera
+        // GET:alterahora
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="horax"></param>
         /// <returns></returns>
-        [Route("horarios/{restid}"), HttpPut]
-        public HttpResponseMessage Alterahorarios([FromBody] hora horax)
+        [Route("sethoras/{restid}/{hora}"), HttpPut]
+        public HttpResponseMessage SetHora([FromBody] int id,hora horasx)
+      //  public async Task <string> GetHoraStr(int id)
         {
-            horarios horario = horarios(restid);
-
-            if (restid > 0)
+            string msg = "";
+          
+        //     string restx = leHoraStr(id);
+     /*       if (id == 0 )
             {
                 HttpError err = new HttpError("Restaurante inexistente ou sem delivery");
                 throw new HttpResponseException(this.Request.CreateResponse(HttpStatusCode.NotFound, err));
             }
             else
-            {
-                
+            {*/
+
                 if (!this.ModelState.IsValid || (ipspodem != "todos" && ipspodem.IndexOf("x" + ipAddress.TrimEnd() + "x") < 0))
                 {
                     HttpError err = new HttpError("Post mal formado");
@@ -1427,8 +1378,7 @@ namespace elocal.Controllers
                 }
                 else
                 {
-                   
-                   string msg = "";
+                    if (msg == "") 
                     if (msg != "")
                     {
                         HttpError err = new HttpError(msg);
@@ -1440,15 +1390,18 @@ namespace elocal.Controllers
                         msgok.msgok = "OK";
                         HttpResponseMessage response = this.Request.CreateResponse(HttpStatusCode.OK, msgok);
                         return response;
+                   
+                      //  return restx;
                     }
+
                 }
-            }
+            HttpMsgOK msgok2 = new HttpMsgOK { };
+            HttpResponseMessage response2 = this.Request.CreateResponse(HttpStatusCode.OK, msgok2);
+                return response2;
+          //  }
         }
 
-        private class HttpMsgOK
-        {
-            public string msgok { get; set; }
-        }
+        
     }
 }
 
