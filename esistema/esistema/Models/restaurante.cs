@@ -246,6 +246,7 @@ namespace elocal.Models
         public int cardapioid { get; set; }
 
         public List<Resthora> horas { get; set; }
+      //  public List<Resthora> horasx { get; set; }
 
         public class Resthora
         {
