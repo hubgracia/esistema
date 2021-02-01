@@ -869,7 +869,7 @@ namespace elocal.Controllers
 
         public Models.restauranteHora leHora(int id)
         {
-            
+
             restauranteHora restx = new restauranteHora { };
             List<restauranteHora> lista = new List<restauranteHora>();
             restx.restid = 0;
@@ -937,23 +937,23 @@ namespace elocal.Controllers
 
         }
 
-        private static async Task<string> setHoras(int id, List<hora> horas)
-       //  public static string leHoraStr(int id)     //(int id,List<hora>horas)
+        public static async Task<string> setHoras(int id, List<hora> horas)
+        //  public static string leHoraStr(int id)     //(int id,List<hora>horas)
         {
             string msg = "";
             restauranteHora restx = new restauranteHora { };
             restx.id = 0;
-                   
+
             string connStr = ConfigurationManager.ConnectionStrings["connWebConfig"].ConnectionString;
             string cmdStr = "select Loja from giraffas.dbo.giraffasLjAF where ";
             cmdStr = cmdStr + " Loja='" + restx.id + "'";
-            using (var conn = new SqlConnection(connStr)) 
+            using (var conn = new SqlConnection(connStr))
             {
                 conn.Open();
                 var cmd = new SqlCommand(cmdStr, conn);
                 if (restx.id > 0)
                 {
-                    
+
                     cmdStr = "update giraffas.dbo.giraffasLjAF set ";
                     cmd = new SqlCommand(cmdStr, conn);
                     cmd.ExecuteNonQuery();
@@ -998,18 +998,17 @@ namespace elocal.Controllers
                                 cmdStr = cmdStr + "HrASab ='1900-01-01 " + hora.abre + ",', HrASab='1900-01-01 " + hora.abre + ",";
                                 cmdStr = cmdStr + "HrFSab ='1900-01-01 " + hora.fecha + ",', HrFSab='1900-01-01 " + hora.fecha + ",";
                                 break;
-                                
+
 
                         }
                         string straux = "";
                         cmdStr = straux + cmdStr + " where loja= " + restx.id.ToString();
                         straux = ",";
-                        
-                    } 
-          
+
+                    }
+
                     cmd = new SqlCommand(cmdStr, conn);
                     cmd.ExecuteNonQuery();
-                    //return cmdStr;
                 }
 
 
@@ -1322,6 +1321,12 @@ namespace elocal.Controllers
                 {
                 }
         */
+        /// <summary>
+        /// Retorna os valores de horário de um restaurante
+        /// Retorna 404 Not Found, se restaurante inexistente.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("hora/{id}")]
         public restauranteHora GetHora(int id)
         {
@@ -1337,66 +1342,52 @@ namespace elocal.Controllers
             }
 
         }
-        // GET:alterahora
+        // PUT:sethoras/id
 
         /// <summary>
-        /// 
+        /// Altera os dados dos horários dos restaurantes pelo seu ID
+        /// Retorna 400 Bad Request, se Post mal formatado.
         /// </summary>
-        /// <param name="horax"></param>
+        /// <param name="horas"></param>
         /// <returns></returns>
         [Route("sethoras/{id}"), HttpPut]
         public async Task<restauranteHora> SetHora([FromBody] List<hora> horas)
-      //  public async Task <string> GetHoraStr(int id)
+        //  public async Task <string> GetHoraStr(int id)
         {
-                        //     string restx = leHoraStr(id);
-           restauranteHora restx = new restauranteHora { };
+            //     string restx = leHoraStr(id);
+            restauranteHora restx = new restauranteHora { };
 
-         //  string msg = "";
-
-            /*       if (id == 0 )
-                   {
-                       HttpError err = new HttpError("Restaurante inexistente ou sem delivery");
-                       throw new HttpResponseException(this.Request.CreateResponse(HttpStatusCode.NotFound, err));
-                   }
-                   else
-                   {*/
-
-            if (!this.ModelState.IsValid || (ipspodem != "todos" && ipspodem.IndexOf("x" + ipAddress.TrimEnd() + "x") < 0))
+                if (!this.ModelState.IsValid || (ipspodem != "todos" && ipspodem.IndexOf("x" + ipAddress.TrimEnd() + "x") < 0))
                 {
                     HttpError err = new HttpError("Post mal formado");
                     throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, err));
                 }
                 else
                 {
-                string msg = await setHoras(restx.id, horas) ;
-                if (msg == "") 
-                    if (msg != "")
-                    {
-                        HttpError err = new HttpError(msg);
-                        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, err));
-                    }
-                    else
-                    {
-                        HttpMsgOK msgok = new HttpMsgOK { };
-                        msgok.msgok = "OK";
-                        HttpResponseMessage response = this.Request.CreateResponse(HttpStatusCode.OK, msgok);
-                    //    return response;
-                   
-                  //      return restx;
-                    }
+                    string msg = await setHoras(restx.id, horas);
+                    if (msg == "")
+                        if (msg != "")
+                        {
+                            HttpError err = new HttpError(msg);
+                            throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, err));
+                        }
+                        else
+                        {
+                            HttpMsgOK msgok = new HttpMsgOK { };
+                            msgok.msgok = "OK";
+                            HttpResponseMessage response = this.Request.CreateResponse(HttpStatusCode.OK, msgok);
+                            //   return response;
 
+
+                        }
+                          return restx;
                 }
-            /*       HttpMsgOK msgok2 = new HttpMsgOK { };
-                   msgok2.msgok = "OK2";
-                   HttpResponseMessage response2 = this.Request.CreateResponse(HttpStatusCode.OK, msgok2);
-                       return response2;*/
-            return restx;
-          //  }
         }
 
-        
+
     }
 }
+
 
 
 
