@@ -11,22 +11,17 @@ namespace isistema.Controllers
 {
     public class ClienteController : Controller
     {
-        // GET: Cliente
+        // GET para restaurante
         public ActionResult restaurantes()
         {
-
             IEnumerable<restauranteHora> restaurante = null;
-            IEnumerable<Resthora> horas = null;
-            //  List<Resthora> Resth = new List<Resthora>();
             using (var cliente = new HttpClient())
             {
                 cliente.BaseAddress = new Uri("https://localhost:44355/api/");
                 //GET 
                 var responseTask = cliente.GetAsync("restaurante");
-                
                 var result = responseTask.Result;
-                
-
+           
                 if (result.IsSuccessStatusCode)
                 {
                     
@@ -43,7 +38,7 @@ namespace isistema.Controllers
             }
             return View(restaurante);
         }
-
+        //GET para a tabela de horas
         public ActionResult horas(int id)
         {
             IEnumerable<Resthora> horas = null;
