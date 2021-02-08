@@ -940,18 +940,19 @@ namespace elocal.Controllers
         public static async Task<string> setHoras(int id, List<hora> horas)
         //  public static string leHoraStr(int id)     //(int id,List<hora>horas)
         {
+            string cmdStr = "";
             string msg = "";
             restauranteHora restx = new restauranteHora { };
-            restx.id = 0;
+            restx.restid = 0;
 
             string connStr = ConfigurationManager.ConnectionStrings["connWebConfig"].ConnectionString;
-            string cmdStr = "select Loja from giraffas.dbo.giraffasLjAF where ";
-            cmdStr = cmdStr + " Loja='" + restx.id + "'";
+      //      string cmdStr = "select Loja from giraffas.dbo.giraffasLjAF where ";
+     //       cmdStr = cmdStr + " Loja='" + restx.id + "'";
             using (var conn = new SqlConnection(connStr))
             {
                 conn.Open();
                 var cmd = new SqlCommand(cmdStr, conn);
-                if (restx.id > 0)
+                if (restx.restid > 0)
                 {
 
                     cmdStr = "update giraffas.dbo.giraffasLjAF set ";
@@ -1002,7 +1003,7 @@ namespace elocal.Controllers
 
                         }
                         string straux = "";
-                        cmdStr = straux + cmdStr + " where loja= " + restx.id.ToString();
+                        cmdStr = straux + cmdStr + " where loja= " + restx.restid.ToString();
                         straux = ",";
 
                     }
@@ -1338,7 +1339,7 @@ namespace elocal.Controllers
             }
             else
             {
-                return restx;
+                return (leHora(id));
             }
 
         }
@@ -1364,7 +1365,7 @@ namespace elocal.Controllers
                 }
                 else
                 {
-                    string msg = await setHoras(restx.id, horas);
+                    string msg = await setHoras(restx.restid, horas);
                     if (msg == "")
                         if (msg != "")
                         {
