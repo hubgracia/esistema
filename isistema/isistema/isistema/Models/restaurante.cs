@@ -6,36 +6,7 @@ using System.Web;
 
 namespace isistema.Models
 {
-    /*public class restauranteHora
-    {
-
-        public int restid { get; set; }
-
-        public int cardapioid { get; set; }
-
-        
-
-        
-    }
-    public class HttpMsgOK
-    {
-        public string msgok { get; set; }
-    }
-
-    /// <summary>
-    /// Horario do restaurante
-    /// </summary>
     
-    
-   
-    public class Resthora
-    {
-    
-        public List<Resthora> horas { get; set; }
-        public int dia { get; set; }
-        public string abre { get; set; }
-        public string fecha { get; set; }
-    }*/
 
     public class restaurante
     {
