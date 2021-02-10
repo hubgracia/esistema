@@ -14,7 +14,7 @@ namespace isistema.Controllers
         // GET para restaurante
         public ActionResult restaurantes()
         {
-            IEnumerable<restauranteHora> restaurante = null;
+            IEnumerable<restaurante> restaurante = null;
             using (var cliente = new HttpClient())
             {
                 cliente.BaseAddress = new Uri("https://localhost:44355/api/");
@@ -25,13 +25,13 @@ namespace isistema.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     
-                    var readJob = result.Content.ReadAsAsync<IList<restauranteHora>>();
+                    var readJob = result.Content.ReadAsAsync<IList<restaurante>>();
                     readJob.Wait();
                     restaurante = readJob.Result;
                 }
                 else
                 {
-                    restaurante = Enumerable.Empty<restauranteHora>();
+                    restaurante = Enumerable.Empty<restaurante>();
                     
                     ModelState.AddModelError(string.Empty, "erro no servidor");
                 }
@@ -39,31 +39,34 @@ namespace isistema.Controllers
             return View(restaurante);
         }
         //GET para a tabela de horas
-        public ActionResult horas(int id)
+        public ActionResult horas(int? id)
         {
-            IEnumerable<Resthora> horas = null;
-
+            
+            IEnumerable<restaurante>restx = null;
+            
             using (var cliente = new HttpClient())
             {
-                cliente.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
-
-                var responseTask = cliente.GetAsync("horas");
-                responseTask.Wait();
+                cliente.BaseAddress = new Uri("https://localhost:44355/api/");
+                //GET 
+                var responseTask = cliente.GetAsync("restaurante");
                 var result = responseTask.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readJob = result.Content.ReadAsAsync<IList<Resthora>>();
+
+                    var readJob = result.Content.ReadAsAsync <IList<restaurante>>();
                     readJob.Wait();
-                    horas = readJob.Result;
+                    restx = readJob.Result;
                 }
                 else
                 {
-                    horas = Enumerable.Empty<Resthora>();
+                    restx = Enumerable.Empty<restaurante>();
+
                     ModelState.AddModelError(string.Empty, "erro no servidor");
                 }
             }
-            return View(horas);
+          //  return View("horas", new { id = 1 });
+            return View();
         }
     }
 }

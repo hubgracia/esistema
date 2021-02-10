@@ -1,7 +1,8 @@
-﻿@model IEnumerable<isistema.Models.Resthora>
+﻿@model IEnumerable<isistema.Models.restaurante>
 
 @{
     ViewBag.Title = "horas";
+    Layout = "_Layout.cshtml";
 }
 
 <h2>horas</h2>
@@ -15,14 +16,15 @@
             @Html.DisplayNameFor(model => model.restid)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.dia)
+            @Html.DisplayNameFor(model => model.restNome)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.abre)
+            @Html.DisplayNameFor(model => model.restInicio)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fecha)
+            @Html.DisplayNameFor(model => model.restFim)
         </th>
+       
         <th></th>
     </tr>
 
@@ -32,16 +34,16 @@
             @Html.DisplayFor(modelItem => item.restid)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.dia)
+            @Html.DisplayFor(modelItem => item.restNome)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.abre)
+            @Html.DisplayFor(modelItem => item.restInicio)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.fecha)
+            @Html.DisplayFor(modelItem => item.restFim)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Edit", "Edit", new {  id=item.restid }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
