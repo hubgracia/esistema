@@ -10,9 +10,12 @@ namespace isistema.Models
 
     public class restaurante
     {
+     //   public int id { get; set; }
+
         /// <summary>
         /// Identificador do restaurante
         /// </summary>
+       // [Key]
         public int restid { get; set; }
 
         /// <summary>
@@ -168,12 +171,14 @@ namespace isistema.Models
     /// Obs1: Horários locais respeitando os fusos de cada região.
     /// Obs2: Quando abertura for "23:45" significa que o restaurante não abre nesse dia.
     /// </summary>
+    
     public class hora
     {
+        public List<hora> horas { get; set; }
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }
-        public int restid { get; internal set; }
+    //    public int restid { get; internal set; }
 
     }
 
@@ -256,7 +261,7 @@ namespace isistema.Models
     /// <summary>
     /// Horario do restaurante
     /// </summary>
-    public class horarios
+   /* public class horarios
     {
         public int restid { get; set; }
         public int cardapioid { get; set; }
@@ -272,12 +277,12 @@ namespace isistema.Models
             public int dia { get; set; }
             public string abre { get; set; }
             public string fecha { get; set; }
-        }
+        }*/
     }
 
 
     //}
-}
+//}
 
 
 

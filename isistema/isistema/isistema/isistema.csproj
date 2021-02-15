@@ -129,7 +129,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\RestauranteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -173,9 +173,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Cliente\_Layout.cshtml" />
-    <Content Include="Views\Cliente\restaurantes.cshtml" />
-    <Content Include="Views\Cliente\horas.cshtml" />
+    <Content Include="Views\Restaurante\_Layout.cshtml" />
+    <Content Include="Views\Restaurante\Edit.cshtml" />
+    <Content Include="Views\Restaurante\RestSelecionado.cshtml" />
+    <Content Include="Views\Restaurante\HoraLista.cshtml" />
+    <Content Include="Views\Restaurante\RestLista.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
