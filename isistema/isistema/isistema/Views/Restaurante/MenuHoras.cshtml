@@ -1,0 +1,53 @@
+﻿@model isistema.Models.JuntaModel
+
+<div>
+    <h4>JuntaModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.restid)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.restid)
+        </dd>
+    </dl>
+</div>
+<table class="table">
+    <tr>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+        <th></th>
+    </tr>
+
+    <!--foreach (var item in Model.resthoras)
+    {
+    <tr>
+        <td>
+            Html.DisplayFor(modelItem => item.dia)
+        </td>
+        <td>
+            Html.DisplayFor(modelItem => item.abre)
+        </td>
+        <td>
+            Html.DisplayFor(modelItem => item.fecha)
+        </td>-->
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+    </td>
+    </tr>
+    <!--}-->
+
+</table>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

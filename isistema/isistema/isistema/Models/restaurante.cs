@@ -6,16 +6,16 @@ using System.Web;
 
 namespace isistema.Models
 {
-    
+
 
     public class restaurante
     {
-     //   public int id { get; set; }
+        //   public int id { get; set; }
 
         /// <summary>
         /// Identificador do restaurante
         /// </summary>
-       // [Key]
+        // [Key]
         public int restid { get; set; }
 
         /// <summary>
@@ -171,14 +171,14 @@ namespace isistema.Models
     /// Obs1: Horários locais respeitando os fusos de cada região.
     /// Obs2: Quando abertura for "23:45" significa que o restaurante não abre nesse dia.
     /// </summary>
-    
+
     public class hora
     {
         public List<hora> horas { get; set; }
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }
-    //    public int restid { get; internal set; }
+        //    public int restid { get; internal set; }
 
     }
 
@@ -247,17 +247,27 @@ namespace isistema.Models
 
         public List<Resthora> horas { get; set; }
 
-        public class Resthora
-        {
-            public int dia { get; set; }
-            public string abre { get; set; }
-            public string fecha { get; set; }
-        }
+          public class Resthora
+          {
+              public int dia { get; set; }
+              public string abre { get; set; }
+              public string fecha { get; set; }
+          }
     }
+
+
+
+
     public class HttpMsgOK
     {
         public string msgok { get; set; }
     }
+    public class JuntaModel
+        {
+        public List<restauranteHora.Resthora> resthoras { get; set; }
+        public List<restauranteHora> restaurante { get; set; }
+        public int restid { get; set; }
+        }
     /// <summary>
     /// Horario do restaurante
     /// </summary>
