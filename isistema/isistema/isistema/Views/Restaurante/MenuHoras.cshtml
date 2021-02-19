@@ -1,4 +1,4 @@
-﻿@model isistema.Models.JuntaModel
+﻿@model isistema.Models.WrapperModel
 
 <div>
     <h4>JuntaModel</h4>
@@ -13,41 +13,23 @@
     </dl>
 </div>
 <table class="table">
-    <tr>
-        <th>
-
-        </th>
-        <th>
-
-        </th>
-        <th>
-
-        </th>
-        <th></th>
-    </tr>
-
-    <!--foreach (var item in Model.resthoras)
+ 
+    @foreach (var horas in Model.horas)
     {
     <tr>
         <td>
-            Html.DisplayFor(modelItem => item.dia)
+            @Html.DisplayFor(modelItem => horas.dia)
         </td>
         <td>
-            Html.DisplayFor(modelItem => item.abre)
+            @Html.DisplayFor(modelItem => horas.abre)
         </td>
         <td>
-            Html.DisplayFor(modelItem => item.fecha)
-        </td>-->
+            @Html.DisplayFor(modelItem => horas.fecha)
+        </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+       @Html.ActionLink("Editar", "Edit", new {  id=Model.restid  })
     </td>
     </tr>
-    <!--}-->
+    }
 
 </table>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

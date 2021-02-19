@@ -179,7 +179,7 @@ namespace elocal.Models
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }
-        public int restid { get; internal set; }
+       
 
     }
 
@@ -259,23 +259,10 @@ namespace elocal.Models
     {
         public string msgok { get; set; }
     }
-    public class HoraViewModel
-    {
-        public string StrRetorno { get; set; }
-        //  public IEnumerable ResthoraView { get; set; }
-        public int restid { get; set; }
-        public List<ResthoraView> horas { get; set; }
-
-        public class ResthoraView
-        {
-            public int dia { get; set; }
-            public string abre { get; set; }
-            public string fecha { get; set; }
-        }
         /// <summary>
         /// Horario do restaurante
         /// </summary>
-        /*  public class horarios
+          public class horarios
           {
               public int restid { get; set; }
               public int cardapioid { get; set; }
@@ -292,8 +279,8 @@ namespace elocal.Models
                   public string abre { get; set; }
                   public string fecha { get; set; }
               }
-          }*/
+          }
 
 
-    }
+    //}
 }

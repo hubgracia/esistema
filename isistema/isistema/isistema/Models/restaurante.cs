@@ -262,12 +262,12 @@ namespace isistema.Models
     {
         public string msgok { get; set; }
     }
-    public class JuntaModel
+    public class WrapperModel
         {
-        public List<restauranteHora.Resthora> resthoras { get; set; }
-        public List<restauranteHora> restaurante { get; set; }
+        public List<restauranteHora> restauranteHora{ get; set; }
+        public List<restauranteHora.Resthora> horas { get; set; }
         public int restid { get; set; }
-        }
+    }
     /// <summary>
     /// Horario do restaurante
     /// </summary>

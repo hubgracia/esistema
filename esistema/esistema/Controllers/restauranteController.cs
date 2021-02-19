@@ -23,7 +23,7 @@ namespace elocal.Controllers
         private static string ipspodem = ConfigurationManager.AppSettings["ipspodem"];
         private static string cepbd = ConfigurationManager.AppSettings["cepbd"];
 
-        public int restid { get; private set; }
+        
 
         private static restaurante leRest(int id)
         {
@@ -965,39 +965,39 @@ namespace elocal.Controllers
                         {
                             case 1:
                                 // Dom
-                                cmdStr = cmdStr + "HrADom='1900-01-01 " + hora.abre + ",', HxADom='1900-01-01" + hora.abre + ",";
-                                cmdStr = cmdStr + "HrFDom='1900-01-01 " + hora.fecha + ",', HxADom='1900-01-01 " + hora.fecha + ",";
+                                cmdStr = cmdStr + "HrADom='1900-01-01 " + hora.abre + "', HxADom='1900-01-01 " + hora.abre + "',";
+                                cmdStr = cmdStr + "HrFDom='1900-01-01 " + hora.fecha + "', HxADom='1900-01-01 " + hora.fecha + "',";
                                 break;
 
                             case 2:
                                 //Seg
-                                cmdStr = cmdStr + "HrA2a6 ='1900-01-01 " + hora.abre + ",', HrA2a6='1900-01-01 " + hora.abre + ",";
-                                cmdStr = cmdStr + "HrF2a6 ='1900-01-01 " + hora.fecha + ",', HrF2a6='1900-01-01 " + hora.fecha + ",";
+                                cmdStr = cmdStr + "HrA2a6 ='1900-01-01 " + hora.abre + "', HrA2a6='1900-01-01 " + hora.abre + "',";
+                                cmdStr = cmdStr + "HrF2a6 ='1900-01-01 " + hora.fecha + "', HrF2a6='1900-01-01 " + hora.fecha + "',";
                                 break;
                             case 3:
                                 //Ter
-                                cmdStr = cmdStr + "HrA3='1900-01-01 " + hora.abre + ",', HrA3='1900-01-01 " + hora.abre + ",";
-                                cmdStr = cmdStr + "HrF3 ='1900-01-01 " + hora.fecha + ",', HrF3='1900-01-01 " + hora.fecha + ",";
+                                cmdStr = cmdStr + "HrA3='1900-01-01 " + hora.abre + "', HrA3='1900-01-01 " + hora.abre + "',";
+                                cmdStr = cmdStr + "HrF3 ='1900-01-01 " + hora.fecha + "', HrF3='1900-01-01 " + hora.fecha + "',";
                                 break;
                             case 4:
                                 //Qua
-                                cmdStr = cmdStr + "HrA4 ='1900-01-01 " + hora.abre + ",', HrA4='1900-01-01 " + hora.abre + ",";
-                                cmdStr = cmdStr + "HrF4 ='1900-01-01 " + hora.fecha + ",', HrF4='1900-01-01 " + hora.fecha + ",";
+                                cmdStr = cmdStr + "HrA4 ='1900-01-01 " + hora.abre + "',  HrA4='1900-01-01 " + hora.abre + "',";
+                                cmdStr = cmdStr + "HrF4 ='1900-01-01 " + hora.fecha + "',  HrF4='1900-01-01 " + hora.fecha + "',";
                                 break;
                             case 5:
                                 //Qui
-                                cmdStr = cmdStr + "HrA5 ='1900-01-01 " + hora.abre + ",', HrA5='1900-01-01 " + hora.abre + ",";
-                                cmdStr = cmdStr + "HrF5 ='1900-01-01 " + hora.fecha + ",', HrF5='1900-01-01 " + hora.fecha + ",";
+                                cmdStr = cmdStr + "HrA5 ='1900-01-01 " + hora.abre + "',  HrA5='1900-01-01 " + hora.abre + "',";
+                                cmdStr = cmdStr + "HrF5 ='1900-01-01 " + hora.fecha + "',  HrF5='1900-01-01 " + hora.fecha + "',";
                                 break;
                             case 6:
                                 //Sex
-                                cmdStr = cmdStr + "HrA6 ='1900-01-01 " + hora.abre + ",', HrA6='1900-01-01" + hora.abre + ",";
-                                cmdStr = cmdStr + "HrF6 ='1900-01-01 " + hora.fecha + ",', HrF6='1900-01-01" + hora.fecha + ",";
+                                cmdStr = cmdStr + "HrA6 ='1900-01-01 " + hora.abre + "', HrA6='1900-01-01" + hora.abre + "',";
+                                cmdStr = cmdStr + "HrF6 ='1900-01-01 " + hora.fecha + "', HrF6='1900-01-01" + hora.fecha + "',";
                                 break;
                             case 7:
                                 //Sab
-                                cmdStr = cmdStr + "HrASab ='1900-01-01 " + hora.abre + ",', HrASab='1900-01-01 " + hora.abre + ",";
-                                cmdStr = cmdStr + "HrFSab ='1900-01-01 " + hora.fecha + ",', HrFSab='1900-01-01 " + hora.fecha + ",";
+                                cmdStr = cmdStr + "HrASab ='1900-01-01 " + hora.abre + "', HrASab='1900-01-01 " + hora.abre + "',";
+                                cmdStr = cmdStr + "HrFSab ='1900-01-01 " + hora.fecha + "', HrFSab='1900-01-01 " + hora.fecha + "',";
                                 break;
 
 

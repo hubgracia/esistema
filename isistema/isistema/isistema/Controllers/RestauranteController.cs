@@ -42,9 +42,7 @@ namespace isistema.Controllers
 
         public ActionResult MenuHoras(int id)
         {
-            JuntaModel model = new JuntaModel();
-            restauranteHora restaurante = new restauranteHora();
-            restauranteHora.Resthora horax = null;
+            WrapperModel model = new WrapperModel();
 
             using (var cliente = new HttpClient())
             {
@@ -55,20 +53,15 @@ namespace isistema.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readJob = result.Content.ReadAsAsync<JuntaModel>();
-                    readJob.Wait();
-
-                    var readJob2 = result.Content.ReadAsAsync<restauranteHora.Resthora>();
+                    var readJob = result.Content.ReadAsAsync<WrapperModel>();
                     readJob.Wait();
 
                     model = readJob.Result;
-                    horax = readJob2.Result;
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "erro no servidor");
                 }
-                
             }    
             return View(model);          
         }
