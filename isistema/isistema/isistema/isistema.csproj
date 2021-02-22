@@ -178,6 +178,7 @@
     <Content Include="Views\Restaurante\RestSelecionado.cshtml" />
     <Content Include="Views\Restaurante\RestLista.cshtml" />
     <Content Include="Views\Restaurante\MenuHoras.cshtml" />
+    <Content Include="Views\Restaurante\AlterarHoras.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

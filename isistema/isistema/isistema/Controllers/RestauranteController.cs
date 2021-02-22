@@ -92,10 +92,26 @@ namespace isistema.Controllers
             }
             return View(rest);
         }
-
-        public ActionResult Edit(int id) 
+        [HttpPost]
+        public ActionResult AlterarHoras(int id) 
         {
-            return View();    
+            WrapperModel model = new WrapperModel();
+            using (var cliente = new HttpClient())
+            {
+                cliente.BaseAddress = new Uri("https://localhost:44355/api/");
+                var responseTask = cliente.PutAsJsonAsync<WrapperModel>($"restaurante/sethoras/{id}",model);
+                responseTask.Wait();
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readJob = result.Content.ReadAsAsync<WrapperModel>();
+                    readJob.Wait();
+
+                    model = readJob.Result;
+                }
+            }
+                return View();    
         }
         public ActionResult teste()
         {
