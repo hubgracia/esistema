@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using isistema.Models;
@@ -92,26 +93,35 @@ namespace isistema.Controllers
             }
             return View(rest);
         }
-        [HttpPost]
-        public ActionResult AlterarHoras(int id) 
+      //  [HttpPut]
+     //      public async Task AlterarHoras(int id) 
+        public ActionResult AlterarHoras(int id)
         {
-            WrapperModel model = new WrapperModel();
-            using (var cliente = new HttpClient())
+            WrapperModel.Resthora model = new WrapperModel.Resthora();
+            using (var cliente = new HttpClient())   
             {
                 cliente.BaseAddress = new Uri("https://localhost:44355/api/");
-                var responseTask = cliente.PutAsJsonAsync<WrapperModel>($"restaurante/sethoras/{id}",model);
+                var responseTask = cliente.PutAsJsonAsync<WrapperModel.Resthora>($"restaurante/sethoras/{id}",model);
                 responseTask.Wait();
                 var result = responseTask.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readJob = result.Content.ReadAsAsync<WrapperModel>();
+                    var readJob = result.Content.ReadAsAsync<WrapperModel.Resthora>();
                     readJob.Wait();
 
                     model = readJob.Result;
                 }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "erro no servidor:StatusCode fail");
+
+                }
             }
-                return View();    
+           // await this.AlterarHoras(id);
+
+             return View("AlterarHoras", model);   
+           
         }
         public ActionResult teste()
         {

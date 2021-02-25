@@ -265,8 +265,16 @@ namespace isistema.Models
     public class WrapperModel
         {
         public List<restauranteHora> restauranteHora{ get; set; }
-        public List<restauranteHora.Resthora> horas { get; set; }
+        public List<Resthora> horas { get; set; }
         public int restid { get; set; }
+
+        public class Resthora
+        {
+            public int dia { get; set; }
+            public string abre { get; set; }
+            public string fecha { get; set; }
+        }
+
     }
     /// <summary>
     /// Horario do restaurante
