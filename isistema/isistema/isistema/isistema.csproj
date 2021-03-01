@@ -180,6 +180,7 @@
     <Content Include="Views\Restaurante\MenuHoras.cshtml" />
     <Content Include="Views\Restaurante\AlterarHoras.cshtml" />
     <Content Include="Views\Restaurante\teste.cshtml" />
+    <Content Include="Views\Restaurante\AlterarHorasTeste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
