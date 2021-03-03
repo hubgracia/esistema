@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using isistema.Models;
 using Newtonsoft.Json;
 using static isistema.Models.hora;
+using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 using HttpPutAttribute = System.Web.Mvc.HttpPutAttribute;
 
 namespace isistema.Controllers
@@ -132,7 +133,7 @@ namespace isistema.Controllers
         {
             return View();
         }
-        [HttpPut]
+     //   [HttpPut]
         public ActionResult AlterarHorasTeste(int id)
         {
             WrapperModel.Resthora horas = new WrapperModel.Resthora();
@@ -140,17 +141,19 @@ namespace isistema.Controllers
             using (var cliente = new HttpClient())
             {
                 cliente.BaseAddress = new Uri("https://localhost:44355/api/restaurante/sethoras/");
-                cliente.DefaultRequestHeaders.Clear();
-                cliente.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        //        cliente.DefaultRequestHeaders.Clear();
+          //      cliente.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
        
-                var responseTask = cliente.GetAsync($"{id}");
+                var responseTask = cliente.GetAsync("restid?id=" + id.ToString());
                 responseTask.Wait();
                 var result = responseTask.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var horaLista = result.Content.ReadAsStringAsync().Result;
-                    horas = JsonConvert.DeserializeObject<WrapperModel.Resthora>(horaLista);
+                    var readTask = result.Content.ReadAsAsync<WrapperModel.Resthora>().Result;
+                    readTask.Wait();
+                    horas = readTask.Result;
+             //       horas = JsonConvert.DeserializeObject<WrapperModel.Resthora>(horaLista);
                 }
                 else
                 {
@@ -160,9 +163,30 @@ namespace isistema.Controllers
             }
             // await this.AlterarHoras(id);
 
-            return View("AlterarHoras", horas);
+            return View(horas);
 
         }
 
+        [HttpPost]
+        public ActionResult AlterarHorasTeste(WrapperModel.Resthora resthora, int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/sethoras/");
+                var responseTask = client.GetAsync("restid?id=" + id.ToString());
+                //HTTP POST
+                var putTask = client.PutAsJsonAsync<WrapperModel.Resthora>("resthora", resthora);
+                putTask.Wait();
+
+                var result = putTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+
+                    return RedirectToAction("MenuHoras");
+                }
+            }
+            return View(resthora);
+        }
     }
+
 }

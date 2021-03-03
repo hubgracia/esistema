@@ -273,6 +273,12 @@ namespace isistema.Models
             public int dia { get; set; }
             public string abre { get; set; }
             public string fecha { get; set; }
+            public Resthora Result { get; internal set; }
+
+            internal void Wait()
+            {
+                throw new NotImplementedException();
+            }
         }
 
     }
