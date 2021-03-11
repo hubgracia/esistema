@@ -268,45 +268,21 @@ namespace isistema.Models
         public List<Resthora> horas { get; set; }
         public int restid { get; set; }
 
+
         public class Resthora
         {
+            public int restid { get; set; }
             public int dia { get; set; }
             public string abre { get; set; }
             public string fecha { get; set; }
             public Resthora Result { get; internal set; }
 
-            internal void Wait()
-            {
-                throw new NotImplementedException();
-            }
         }
 
     }
-    /// <summary>
-    /// Horario do restaurante
-    /// </summary>
-   /* public class horarios
-    {
-        public int restid { get; set; }
-        public int cardapioid { get; set; }
-        /// <summary>
-        /// Lista dos horarios de abertura e fechamento do restaurante.
-        /// </summary>
-        /// 
-        //   [RegularExpression(@"^(?:[01][0-9]|2[0-3]):[0-5][0-9]$")]
-        public List<hora> horas { get; set; }
 
-        public class hora
-        {
-            public int dia { get; set; }
-            public string abre { get; set; }
-            public string fecha { get; set; }
-        }*/
     }
 
-
-    //}
-//}
 
 
 

@@ -1352,11 +1352,11 @@ namespace elocal.Controllers
         /// <param name="horas"></param>
         /// <returns></returns>
         [Route("sethoras/{id}"), HttpPut]
-        public async Task<restauranteHora> SetHora([FromBody] List<hora> horas)
+        public async Task<Resthora> SetHora([FromBody] List<hora> horas)
         //  public async Task <string> GetHoraStr(int id)
         {
             //     string restx = leHoraStr(id);
-            restauranteHora restx = new restauranteHora { };
+            Resthora restx = new Resthora { };
 
                 if (!this.ModelState.IsValid || (ipspodem != "todos" && ipspodem.IndexOf("x" + ipAddress.TrimEnd() + "x") < 0))
                 {
