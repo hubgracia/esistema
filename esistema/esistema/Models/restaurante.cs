@@ -251,7 +251,6 @@ namespace elocal.Models
         public class Resthora
 
         {
-            public int restid { get; set; }
             public int dia { get; set; }
             public string abre { get; set; }
             public string fecha { get; set; }

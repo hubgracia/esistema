@@ -1,35 +1,115 @@
 ﻿@model isistema.Models.WrapperModel
+<div class="left">
+    <div>
+        <h4>Restaurante</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.restid)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.restid)
+            </dd>
+        </dl>
+    </div>
+    <table class="table">
 
-<div>
-    <h4>JuntaModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.restid)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.restid)
-        </dd>
-    </dl>
+        @foreach (var horas in Model.horas)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => horas.dia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => horas.abre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => horas.fecha)
+                </td>
+                <td>
+                    @Html.ActionLink("Alterar", "AlterarHoras", new { id = Model.restid })
+                </td>
+            </tr>
+        }
+
+    </table>
 </div>
-<table class="table">
- 
-    @foreach (var horas in Model.horas)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => horas.dia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => horas.abre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => horas.fecha)
-        </td>
-    <td>
-       @Html.ActionLink("Alterar", "AlterarHoras", new {  id=Model.restid  })
-    </td>
-    </tr>
+<div class="right">
+    <div class="cardTop">
+        <img style="margin-left: 30%;" src="https://iguatemi.com.br/saocarlos/sites/saocarlos/files/2018-04/Giraffas.png" />
+        <!--   <svg width="497" height="219" viewBox="0 0 497 219" fill="none" xmlns="https://iguatemi.com.br/saocarlos/sites/saocarlos/files/2018-04/Giraffas.png">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M-38.5 196C-38.5 196 34 91 133.5 91C233 91 427 159 532.5 30C638 -99 518 236 518 236L-49 246.5L-38.5 196Z" fill="#FF768E" />
+        </svg>-->
+    </div>
+</div>
+<style>
+    body {
+    /*    background-image: url("https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg");*/
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+  
+    }
+    h4 {
+        font-size: 20px;
+        color: black;
+        text-transform: uppercase;
+        padding-left: 5px;
+        border-left: 4px solid #ff0000;
+    }
+    .dl-horizontal dt {
+        margin-left: -10%;
+    }
+    .dl-horizontal dd {
+        margin-left: 5%;
+    }
+    table {
+        width: auto !important;
+        background: #ECF1F524;
+        mix-blend-mode: normal;
+        backdrop-filter: blur(15px);
+        overflow: hidden;
+        position: absolute;
+        top: 30%;
+        margin-left: 5%;
+        box-shadow: 0px 20px 53px -30px rgb(95 102 173 / 57%);
+        border-radius: 10px;
+        display: inline-block;
+    }
+    th, td {
+        background: #ECF1F524;
+        color: black;
+        padding: .25em .5em;
+        text-align: left;
+        vertical-align: top;
     }
 
-</table>
+    td {
+        text-decoration-color:black;
+        vertical-align: top;
+    }
+/*
+    tr {
+        transition: all 1s ease-in-out;
+        transform: translateX(100%);
+    }*/
+    div.right {
+        margin: 0;
+        padding: 0;
+        outline: none;
+        text-decoration: none;
+        list-style: none;
+        font-family: "Mulish", sans-serif;
+    }
+
+    div .cardTop {
+        width: 497px;
+        height: 284px;
+        background: #ffff;
+        border-radius: 20px;
+        display: flex;
+        overflow: hidden;
+        align-items: flex-end;
+    }
+        
+</style>

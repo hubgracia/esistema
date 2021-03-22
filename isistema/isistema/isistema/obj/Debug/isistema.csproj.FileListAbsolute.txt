@@ -93,3 +93,6 @@ C:\Users\Nostradamos\source\isistema\isistema\isistema\obj\Debug\isistema.csproj
 C:\Users\Nostradamos\source\isistema\isistema\isistema\obj\Debug\isistema.csproj.CopyComplete
 C:\Users\Nostradamos\source\isistema\isistema\isistema\obj\Debug\isistema.dll
 C:\Users\Nostradamos\source\isistema\isistema\isistema\obj\Debug\isistema.pdb
+C:\Users\Nostradamos\source\isistema\isistema\isistema\bin\System.Web.Cors.dll
+C:\Users\Nostradamos\source\isistema\isistema\isistema\bin\System.Web.Http.Cors.dll
+C:\Users\Nostradamos\source\isistema\isistema\isistema\bin\System.Web.Http.Cors.xml
