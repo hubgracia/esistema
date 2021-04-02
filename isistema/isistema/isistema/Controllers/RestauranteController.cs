@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using isistema.Models;
 using Newtonsoft.Json;
 using static isistema.Models.hora;
+using AcceptVerbsAttribute = System.Web.Mvc.AcceptVerbsAttribute;
 using HttpGetAttribute = System.Web.Mvc.HttpGetAttribute;
 using HttpPostAttribute = System.Web.Mvc.HttpPostAttribute;
 using HttpPutAttribute = System.Web.Mvc.HttpPutAttribute;
@@ -25,39 +26,39 @@ namespace isistema.Controllers
         {
             IEnumerable<restaurante> restaurante = null;
 
-            using (var cliente = new HttpClient())             
+            using (var cliente = new HttpClient())
             {
                 cliente.BaseAddress = new Uri("https://localhost:44355/api/");
                 //GET 
                 var responseTask = cliente.GetAsync("restaurante");
                 var result = responseTask.Result;
-                
+
                 if (result.IsSuccessStatusCode)
                 {
                     var readJob = result.Content.ReadAsAsync<IList<restaurante>>();
                     readJob.Wait();
                     restaurante = readJob.Result;
-                    
+
                 }
                 else
                 {
-                    restaurante = Enumerable.Empty<restaurante>();                    
+                    restaurante = Enumerable.Empty<restaurante>();
                     ModelState.AddModelError(string.Empty, "erro no servidor");
                 }
             }
             return View(restaurante);
         }
 
-        
+
 
         public ActionResult RestSelecionado(int id)
         {
-           restaurante rest = null;           
+            restaurante rest = null;
 
             using (var cliente = new HttpClient())
             {
                 cliente.BaseAddress = new Uri("https://localhost:44355/api/");
-              
+
                 var responseTask = cliente.GetAsync($"restaurante/{id}");
                 responseTask.Wait();
                 var result = responseTask.Result;
@@ -70,7 +71,7 @@ namespace isistema.Controllers
                     rest = readJob.Result;
                 }
                 else
-                {   
+                {
                     ModelState.AddModelError(string.Empty, "erro no servidor");
                 }
             }
@@ -105,38 +106,40 @@ namespace isistema.Controllers
         [HttpGet]
         public ActionResult AlterarHoras(int id)
         {
-            WrapperModel.Resthora model = new WrapperModel.Resthora();
-            using (var client = new HttpClient())   
+            WrapperModel.hora model = new WrapperModel.hora();
+            using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
 
-                var responseTask = client.GetAsync("sethoras?id=" + id.ToString());
+                var responseTask = client.GetAsync("sethoras?restid=" + id.ToString());
                 responseTask.Wait();
                 var result = responseTask.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readJob = result.Content.ReadAsAsync<WrapperModel.Resthora>();
+                    var readJob = result.Content.ReadAsAsync<WrapperModel.hora>();
                     readJob.Wait();
 
                     model = readJob.Result;
                 }
-                else 
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Error modelo inválido");
 
                 }
             }
-             return View("AlterarHoras", model);   
+            return View("AlterarHoras", model);
         }
-        public ActionResult teste()
+        public ActionResult AlterarHoras()
         {
             return View();
         }
         [HttpGet]
         public ActionResult AlterarHorasTeste(int id)
         {
-            IEnumerable<WrapperModel.Resthora> restx = null;
+            int restid;
+            restid = id;
+            IEnumerable<WrapperModel.hora> restx = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
@@ -147,9 +150,9 @@ namespace isistema.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsAsync<WrapperModel.Resthora>().Result;
+                    var readTask = result.Content.ReadAsAsync<WrapperModel.hora>().Result;
                     readTask.Wait();
-                    restx = (IEnumerable<WrapperModel.Resthora>)readTask.Result;
+                    restx = (IEnumerable<WrapperModel.hora>)readTask.Result;
                 }
                 else
                 {
@@ -159,33 +162,31 @@ namespace isistema.Controllers
             return View(restx);
 
         }
-        [Route("sethoras/{restid}")]
-        [HttpPost]
-        
-        public ActionResult AlterarHorasTeste(int id, WrapperModel.Resthora hora)
+        [Route("api/restaurante/sethoras?id=")]
+        [AcceptVerbs("POST", "PUT")]
+        [HttpPut]
+        public ActionResult AlterarHorasTeste(int id, List<hora> hora)
         {
+            int restid;
+            restid = id;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
+              //  client.Headers["Content-type"] = "application/json";
+              //  client.Encoding = Encoding.UTF8;
 
-                //     var responseTask = client.GetAsync("sethoras?id=" + id.ToString());
-                // responseTask.Wait();
-               // var result = responseTask.Result;
-                var putTask = client.PostAsJsonAsync<WrapperModel.Resthora>("sethoras/" + id.ToString() , hora);
+                var putTask = client.PutAsJsonAsync("sethoras/" + restid.ToString(), hora) ;
+                
                 putTask.Wait();
                 var result = putTask.Result;
 
-
                 if (result.IsSuccessStatusCode)
                 {
-                    //HTTP POST
-                    
-
-                    return RedirectToAction("MenuHoras/" + id.ToString() );
+                    return RedirectToAction("MenuHoras/" + restid.ToString() );
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "não foi salvo");
+                    ModelState.AddModelError(string.Empty, "Falha ao salvar");
                 }
             }
             return View(hora);

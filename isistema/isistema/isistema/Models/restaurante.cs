@@ -174,11 +174,10 @@ namespace isistema.Models
 
     public class hora
     {
-        public List<hora> horas { get; set; }
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }
-        //    public int restid { get; internal set; }
+ 
 
     }
 
@@ -252,7 +251,13 @@ namespace isistema.Models
               public int dia { get; set; }
               public string abre { get; set; }
               public string fecha { get; set; }
-          }
+            public IEnumerable<Resthora> Result { get; internal set; }
+
+            internal void Wait()
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 
 
@@ -265,17 +270,17 @@ namespace isistema.Models
     public class WrapperModel
         {
         public List<restauranteHora> restauranteHora{ get; set; }
-        public List<Resthora> horas { get; set; }
+        public List<hora> horas { get; set; }
         public int restid { get; set; }
 
 
-        public class Resthora
+        public class hora
         {
        //     public int restid { get; set; }
             public int dia { get; set; }
             public string abre { get; set; }
             public string fecha { get; set; }
-            public Resthora Result { get; internal set; }
+            public hora Result { get; internal set; }
 
             internal void Wait()
             {

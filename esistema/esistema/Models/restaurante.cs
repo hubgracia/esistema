@@ -263,7 +263,7 @@ namespace elocal.Models
         /// <summary>
         /// Horario do restaurante
         /// </summary>
-          public class horarios
+      /*    public class horarios
           {
               public int restid { get; set; }
               public int cardapioid { get; set; }
@@ -280,7 +280,7 @@ namespace elocal.Models
                   public string abre { get; set; }
                   public string fecha { get; set; }
               }
-          }
+          }*/
 
 
     //}
