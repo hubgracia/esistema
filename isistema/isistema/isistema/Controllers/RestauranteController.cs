@@ -21,7 +21,10 @@ namespace isistema.Controllers
 {
     public class RestauranteController : Controller
     {
-        // GET para restaurante
+        /// <summary>
+        /// Retorna uma lista com todos os Restaurantes existentes e ativos.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult RestLista()
         {
             IEnumerable<restaurante> restaurante = null;
@@ -50,7 +53,11 @@ namespace isistema.Controllers
         }
 
 
-
+        /// <summary>
+        /// Retorna o restaurante com suas informações pelo seu id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult RestSelecionado(int id)
         {
             restaurante rest = null;
@@ -77,7 +84,11 @@ namespace isistema.Controllers
             }
             return View(rest);
         }
-
+        /// <summary>
+        /// Retorna a lista de horas e os dias do restaurante.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult MenuHoras(int id)
         {
             WrapperModel model = new WrapperModel();
@@ -103,43 +114,14 @@ namespace isistema.Controllers
             }
             return View(model);
         }
+        /// <summary>
+        /// Get para  API que está sendo chamada. Retorna o model a ser alterado.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult AlterarHoras(int id)
         {
-            WrapperModel.hora model = new WrapperModel.hora();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
-
-                var responseTask = client.GetAsync("sethoras?restid=" + id.ToString());
-                responseTask.Wait();
-                var result = responseTask.Result;
-
-                if (result.IsSuccessStatusCode)
-                {
-                    var readJob = result.Content.ReadAsAsync<WrapperModel.hora>();
-                    readJob.Wait();
-
-                    model = readJob.Result;
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Error modelo inválido");
-
-                }
-            }
-            return View("AlterarHoras", model);
-        }
-        public ActionResult AlterarHoras()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult AlterarHorasTeste(int id)
-        {
-            int restid;
-            restid = id;
-            IEnumerable<WrapperModel.hora> restx = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
@@ -150,39 +132,42 @@ namespace isistema.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsAsync<WrapperModel.hora>().Result;
-                    readTask.Wait();
-                    restx = (IEnumerable<WrapperModel.hora>)readTask.Result;
+                    var readTask = result.Content.ReadAsAsync<hora>().Result;
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Falha no modelo");
                 }
             }
-            return View(restx);
+            return View();
 
         }
+        /// <summary>
+        /// Put para a API que está sendo chamada. 
+        /// Envia para API uma lista de horas com os dias referentes a sua alteração.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="hora"></param>
+        /// <returns></returns>
         [Route("api/restaurante/sethoras?id=")]
-        [AcceptVerbs("POST", "PUT")]
+        [AcceptVerbs("POST", "PUT", "PATCH")]
         [HttpPut]
-        public ActionResult AlterarHorasTeste(int id, List<hora> hora)
+        public ActionResult AlterarHoras(int id, List<hora> hora)
         {
-            int restid;
-            restid = id;
+            var model = new hora();
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
-              //  client.Headers["Content-type"] = "application/json";
-              //  client.Encoding = Encoding.UTF8;
 
-                var putTask = client.PutAsJsonAsync("sethoras/" + restid.ToString(), hora) ;
-                
+                var putTask = client.PutAsJsonAsync("sethoras/" + id.ToString(), hora);
+
                 putTask.Wait();
                 var result = putTask.Result;
 
                 if (result.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("MenuHoras/" + restid.ToString() );
+                    return RedirectToAction("MenuHoras/" + id.ToString());
                 }
                 else
                 {
@@ -192,5 +177,4 @@ namespace isistema.Controllers
             return View(hora);
         }
     }
-    
 }

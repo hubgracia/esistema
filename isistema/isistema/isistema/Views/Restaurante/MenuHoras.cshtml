@@ -26,12 +26,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => horas.fecha)
                 </td>
-                <td>
-                    @Html.ActionLink("Alterar", "AlterarHoras", new { id = Model.restid })
-                </td>
             </tr>
         }
-
+        <td>
+            @Html.ActionLink("Alterar", "AlterarHoras", new { id = Model.restid })
+        </td>
     </table>
 </div>
 <div class="right">

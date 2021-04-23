@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+
 
 namespace isistema.Models
 {
@@ -139,6 +138,11 @@ namespace isistema.Models
         /// </summary>
         public int locStatus { get; set; }
 
+        internal void Wait()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Valor mínimo para pedidos delivery.
         /// </summary>
@@ -177,8 +181,11 @@ namespace isistema.Models
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }
- 
 
+        internal void Wait()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -237,50 +244,22 @@ namespace isistema.Models
 
 
     }
-    public class restauranteHora
-    {
-
-        public int restid { get; set; }
-
-        public int cardapioid { get; set; }
-
-        public List<Resthora> horas { get; set; }
-
-          public class Resthora
-          {
-              public int dia { get; set; }
-              public string abre { get; set; }
-              public string fecha { get; set; }
-            public IEnumerable<Resthora> Result { get; internal set; }
-
-            internal void Wait()
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
-
-
-
-
     public class HttpMsgOK
     {
         public string msgok { get; set; }
     }
     public class WrapperModel
         {
-        public List<restauranteHora> restauranteHora{ get; set; }
-        public List<hora> horas { get; set; }
+        public List<hora> horas {  get; set; }
         public int restid { get; set; }
 
 
         public class hora
         {
-       //     public int restid { get; set; }
+            [Key]
             public int dia { get; set; }
             public string abre { get; set; }
             public string fecha { get; set; }
-            public hora Result { get; internal set; }
 
             internal void Wait()
             {

@@ -180,13 +180,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Restaurante\_Layout.cshtml" />
-    <Content Include="Views\Restaurante\Edit.cshtml" />
     <Content Include="Views\Restaurante\RestSelecionado.cshtml" />
     <Content Include="Views\Restaurante\RestLista.cshtml" />
     <Content Include="Views\Restaurante\MenuHoras.cshtml" />
     <Content Include="Views\Restaurante\AlterarHoras.cshtml" />
     <Content Include="Views\Restaurante\teste.cshtml" />
-    <Content Include="Views\Restaurante\AlterarHorasTeste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
