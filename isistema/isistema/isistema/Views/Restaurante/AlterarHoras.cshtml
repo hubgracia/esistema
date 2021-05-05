@@ -1,5 +1,6 @@
 ﻿@model List<isistema.Models.hora>
 
+
 <div class="card">
     @using (Html.BeginForm())
     {
@@ -8,15 +9,32 @@
     <div class="form-horizontal">
         <h4>Alterar Dias</h4>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-
-            @Html.LabelFor(model => model[0].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[0].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[0].dia, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+       
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <input type="checkbox" checked ng-model="model.dia" ng-true-value="'1'" ngFalseValue="'0'" ng-checked="'1'" /> Seg
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox" checked ng-model="model.dia" ng-true-value="'2'" ngFalseValue="'0'" ng-checked="'2'" /> Seg
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox"> Qua
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox"> Qui
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox"> Sex
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox"> Sab
+            </label>
+            <label class="btn btn-primary">
+                <input type="checkbox"> Dom e Feriado
+            </label>
         </div>
+    </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model[0].abre, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -39,189 +57,15 @@
             </div>
         </div>
 
-        <h3>Alterar outros dias</h3>
-        <div class="form-group">
-            @Html.LabelFor(model => model[1].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[1].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[1].dia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[1].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[1].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[1].abre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[1].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[1].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[1].fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <h3>Alterar outros dias</h3>
-        <div class="form-group">
-            @Html.LabelFor(model => model[2].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[2].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[2].dia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[2].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[2].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[2].abre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[2].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[2].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[2].fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <h3>Alterar outros dias</h3>
-        <div class="form-group">
-            @Html.LabelFor(model => model[3].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[3].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[3].dia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[3].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[3].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[3].abre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[3].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[3].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[3].fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <h3>Alterar outros dias</h3>
-        <div class="form-group">
-            @Html.LabelFor(model => model[4].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[4].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[4].dia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[4].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[4].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[4].abre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[4].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[4].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[4].fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <h3>Alterar outros dias</h3>
-        <div class="form-group">
-            @Html.LabelFor(model => model[5].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[5].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[5].dia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[6].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[6].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[6].abre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[6].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[6].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[6].fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <h3>Alterar outros dias</h3>
-        <div class="form-group">
-            @Html.LabelFor(model => model[7].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[7].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[7].dia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[7].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[7].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[7].abre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[7].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[7].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[7].fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <h3>Alterar outros dias</h3>
-        <div class="form-group">
-            @Html.LabelFor(model => model[8].dia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[8].dia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[8].dia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[8].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[8].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[8].abre, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[8].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[8].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[8].fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input id="save" onclick="JSON" type="submit" value="Alterar valores" class="btn btn-default" />
-            </div>
-        </div>
     </div>
         }
-
     </div>
-
-
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Voltar ao menu de horas", "MenuHoras", new { id = ViewBag.restid })
 </div>
+
+
+
 
 <style>
     body {
@@ -238,6 +82,7 @@
         padding-left: 5px;
         border-left: 4px solid #ff0000;
     }
+
     div .form-horizontal {
         border-radius: 10px;
         box-shadow: 0 3px 10px rgba(0,0,0,0.2);
@@ -245,7 +90,12 @@
         margin: 0.8%;
         display: inline-table;
     }
+
     div .col-md-10 {
         display: contents;
+    }
+
+    div .card {
+        margin-left: 25%;
     }
 </style>

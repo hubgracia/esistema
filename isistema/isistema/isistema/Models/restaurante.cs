@@ -168,6 +168,8 @@ namespace isistema.Models
         /// </summary>
         public List<hora> horas { get; set; }
 
+
+
     }
 
     /// <summary>
@@ -178,6 +180,7 @@ namespace isistema.Models
 
     public class hora
     {
+        public int restid { get; set; }
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }
@@ -186,6 +189,7 @@ namespace isistema.Models
         {
             throw new NotImplementedException();
         }
+
     }
 
     /// <summary>
@@ -266,6 +270,7 @@ namespace isistema.Models
                 
             }
         }
+
 
     }
 
