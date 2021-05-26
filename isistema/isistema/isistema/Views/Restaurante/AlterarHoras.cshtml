@@ -1,5 +1,16 @@
 ﻿@model List<isistema.Models.hora>
 
+@{ViewBag.Title = "AlterarHoras";}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $(document).on("click", "[type='checkbox']", function (e) {
+        if (this.checked) {
+            $(this).attr("value", "true");
+        } else {
+            $(this).attr("value", "false");
+        }
+    });</script>
 
 <div class="card">
     @using (Html.BeginForm())
@@ -9,67 +20,76 @@
     <div class="form-horizontal">
         <h4>Alterar Dias</h4>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-       
-        <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-primary active">
-                <input type="checkbox" checked ng-model="model.dia" ng-true-value="'1'" ngFalseValue="'0'" ng-checked="'1'" /> Seg
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox" checked ng-model="model.dia" ng-true-value="'2'" ngFalseValue="'0'" ng-checked="'2'" /> Seg
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox"> Qua
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox"> Qui
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox"> Sex
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox"> Sab
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox"> Dom e Feriado
-            </label>
-        </div>
-    </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model[0].abre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[0].abre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[0].abre, "", new { @class = "text-danger" })
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="checkbox"> Seg
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox"> Ter
+                    @Html.TextBoxFor(model => model[2].dia, "2", new { id = "Ter", type = "checkbox", })
+                </label>
+                <label class="btn btn-primary">
+                    @Html.LabelFor(model => model[3].dia, htmlAttributes: new { id = "Qua" })
+                    @Html.TextBoxFor(model => model[3].dia, new { name = "model[3].dia", @Value = 3, type = "checkbox", @class = "form-control" })
+
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox" name="model[4].Selected" value="true">Qui
+                    <input type="hidden" name="model[4].dia" value="4">
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox" name="model[5].dia" value="true"/>Sex
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox"> Sab
+                </label>
+                <label class="btn btn-primary">
+                    @Html.CheckBoxFor(model => model[0].Selected) Dom e Feriado
+                    <input type="hidden" name="model[0].dia" value="true">
+                </label>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model[0].fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model[0].fecha, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model[0].fecha, "", new { @class = "text-danger" })
+        @for (int i = 0; i < ViewBag.dias; i++)
+        {
+        <div class="editrow">
+            <div class="edititem">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model[i].abre)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model[i].abre)
+                    @Html.ValidationMessageFor(model => model[i].abre)
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input id="save" onclick="JSON" type="submit" value="Alterar valores" class="btn btn-default" />
+            <div class="edititem">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model[i].fecha)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model[i].fecha)
+                    @Html.ValidationMessageFor(model => model[i].fecha)
+                </div>
             </div>
-        </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="save" onclick="JSON" type="submit" value="Alterar valores" class="btn btn-default" />
+                </div>
+            </div>
 
-    </div>
+        </div>
         }
     </div>
 <div>
     @Html.ActionLink("Voltar ao menu de horas", "MenuHoras", new { id = ViewBag.restid })
 </div>
-
+    }
+</div>
 
 
 
 <style>
     body {
-        /*    background-image: url("https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg");*/
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;

@@ -2,18 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using isistema.Models;
-using Newtonsoft.Json;
-using static isistema.Models.hora;
 using AcceptVerbsAttribute = System.Web.Mvc.AcceptVerbsAttribute;
 using HttpGetAttribute = System.Web.Mvc.HttpGetAttribute;
-using HttpPostAttribute = System.Web.Mvc.HttpPostAttribute;
 using HttpPutAttribute = System.Web.Mvc.HttpPutAttribute;
 using RouteAttribute = System.Web.Mvc.RouteAttribute;
 
@@ -56,7 +49,7 @@ namespace isistema.Controllers
         /// <summary>
         /// Retorna o restaurante com suas informações pelo seu id.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">ID do restaurante fornecido</param>
         /// <returns></returns>
         public ActionResult RestSelecionado(int id)
         {
@@ -95,7 +88,7 @@ namespace isistema.Controllers
 
             using (var cliente = new HttpClient())
             {
-                cliente.BaseAddress = new Uri("https://localhost:44355/api/");
+                cliente.BaseAddress = new Uri("http://rede.jgracia.com.br/esistema/api/");
                 var responseTask = cliente.GetAsync($"restaurante/hora/{id}");
                 responseTask.Wait();
                 var result = responseTask.Result;
@@ -115,16 +108,17 @@ namespace isistema.Controllers
             return View(model);
         }
         /// <summary>
-        /// Get para  API que está sendo chamada. Retorna o model a ser alterado.
+        /// Get para  API que está sendo chamada. Retorna o modelo do objeto horas a ser alterado.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">ID do restaurante fornecido</param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult AlterarHoras(int id)
         {
+
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
+                client.BaseAddress = new Uri("http://rede.jgracia.com.br/esistema/api/restaurante/");
 
                 var responseTask = client.GetAsync("sethoras?id=" + id.ToString());
                 responseTask.Wait();
@@ -142,23 +136,33 @@ namespace isistema.Controllers
             return View();
 
         }
-        /// <summary>
-        /// Put para a API que está sendo chamada. 
-        /// Envia para API uma lista de horas com os dias referentes a sua alteração.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="hora"></param>
-        /// <returns></returns>
-        [Route("api/restaurante/sethoras?id=")]
+
+        [HttpGet]
+        public ActionResult NovoRestaurante(int id)
+        {
+            return View();
+        }
+
+            /// <summary>
+            /// Put para a API que está sendo chamada. 
+            /// Envia para API uma lista de horas com os dias referentes a sua alteração.
+            /// </summary>
+            /// <param name="id">ID do restaurante</param>
+            /// <param name="hora">objeto enviado para a REST api</param>
+            /// <returns></returns>
+            [Route("api/restaurante/sethoras?id=")]
         [AcceptVerbs("POST", "PUT", "PATCH")]
         [HttpPut]
         public ActionResult AlterarHoras(int id, List<hora> hora)
         {
             var model = new hora();
 
+            ViewBag.dias = model.dia;
+
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://localhost:44355/api/restaurante/");
+
+                client.BaseAddress = new Uri("http://rede.jgracia.com.br/esistema/api");
 
                 var putTask = client.PutAsJsonAsync("sethoras/" + id.ToString(), hora);
 
@@ -174,7 +178,7 @@ namespace isistema.Controllers
                     ModelState.AddModelError(string.Empty, "Falha ao salvar");
                 }
             }
-            return View(hora);
+            return null;
         }
     }
 }

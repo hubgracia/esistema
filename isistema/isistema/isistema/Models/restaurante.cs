@@ -180,7 +180,7 @@ namespace isistema.Models
 
     public class hora
     {
-        public int restid { get; set; }
+        public bool Selected { get; set; }
         public int dia { get; set; }
         public string abre { get; set; }
         public string fecha { get; set; }

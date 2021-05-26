@@ -971,9 +971,7 @@
     <Content Include="Views\Restaurante\RestLista.cshtml" />
     <Content Include="Views\Restaurante\MenuHoras.cshtml" />
     <Content Include="Views\Restaurante\AlterarHoras.cshtml" />
-    <Content Include="Views\Restaurante\teste.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\Restaurante\REPO.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
