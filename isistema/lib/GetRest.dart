@@ -1,38 +1,37 @@
 import 'dart:convert';
-import 'dart:io';
+// import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:isistema/models.dart';
 
+///GET request
 class HttpService {
-  final String postsURL =
-      "http://rede.giraffasdelivery.com.br/esistema/api/restaurante";
+  ///URL de GET está com um proxy para autorização CORS futuramente ver se é possível criar as autorizações no esistema
+  final String url =
+      "https://thingproxy.freeboard.io/fetch/http://rede.jgracia.com.br/esistema/api/restaurante/120";
+
   Future<List<Restaurante>> getRest() async {
-    Response res = await http.get(Uri.parse(postsURL), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
-
-    HttpHeaders.authorizationHeader;
-
+    Response res = await http.get(Uri.parse(url));
     if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
+      List<dynamic> body = jsonDecode("[" + res.body + "]");
 
-      List<Restaurante> posts = body
+      List<Restaurante> rest = body
           .map(
             (dynamic item) => Restaurante.fromJson(item),
           )
           .toList();
 
-      return posts;
+      return rest;
     } else {
       throw "Falha na operação";
     }
   }
 }
 
+///Widget de para visualizar a resposta
 class RestGet extends StatelessWidget {
   final HttpService httpService = HttpService();
 
@@ -52,9 +51,59 @@ class RestGet extends StatelessWidget {
               children: rest!
                   .map(
                     (Restaurante rest) => ListTile(
-                      title: Text(rest.restid.toString()),
-                      subtitle: Text("${rest.restNome}"),
-                    ),
+                        title: Text('Id do Restaurante :'
+                            "${rest.restid} "
+                            ' // '
+                            'Nome: '
+                            "${rest.restNome} // "
+                            'locStatus: '
+                            " ${rest.locStatus} // "),
+                        subtitle: Text('Outros Dados: '
+                            'cardapioid :'
+                            " ${rest.cardapioid} // "
+                            'cardapiolocid :'
+                            " ${rest.cardapiolocid} // "
+                            'restNome :'
+                            " ${rest.restNome} // "
+                            'restCep :'
+                            " ${rest.restCep} // "
+                            'restEnde :'
+                            " ${rest.restEnde} // "
+                            'restBairro :'
+                            " ${rest.restBairro} // "
+                            'restCid :'
+                            " ${rest.restCid} // "
+                            'restUf :'
+                            " ${rest.restUf} // "
+                            'cnpj :'
+                            " ${rest.cnpj} // "
+                            'restInicio :'
+                            " ${rest.restInicio} // "
+                            'restFim :'
+                            " ${rest.restFim} // "
+                            'tempo :'
+                            " ${rest.tempo} // "
+                            'txEnt :'
+                            " ${rest.txEnt} // "
+                            'pgtoCod :'
+                            " ${rest.pgtoCod} // "
+                            'restarea :'
+                            " ${rest.restarea} // "
+                            'locInicio :'
+                            " ${rest.locInicio} // "
+                            'locFim :'
+                            " ${rest.locFim} // "
+                            'locStatus :'
+                            " ${rest.locStatus} // "
+                            'delmin :'
+                            " ${rest.delmin} // "
+                            'locmin :'
+                            " ${rest.locmin} // "
+                            'feijao :'
+                            " ${rest.feijao} // "
+                            'horas :'
+                            " ${rest.horas}"
+                            " // ")),
                   )
                   .toList(),
             );
@@ -67,11 +116,13 @@ class RestGet extends StatelessWidget {
   }
 }
 
+///Widget para corpo da Página
+
 class RestauranteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'HTTP',
+      title: 'Restaurante',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,

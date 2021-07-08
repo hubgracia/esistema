@@ -1,97 +1,137 @@
-import 'package:flutter/foundation.dart';
+///Arquivo com os Models e suas conversões
+
+import 'dart:convert';
+
+Restaurante restauranteFromJson(String str) =>
+    Restaurante.fromJson(json.decode(str));
+
+String restauranteToJson(Restaurante data) => json.encode(data.toJson());
 
 class Restaurante {
-  final int restid;
-  final int cardapioid;
-  final int cardapiolocid;
-  final String restNome;
-  final String restCep;
-  final String restEnde;
-  final String restBairro;
-  final String restCid;
-  final String restUf;
-  final String cnpj;
-  final String restInicio;
-  final String restFim;
-  final int Tempo;
-  final int TxEnt;
-  final String pgtoCod;
-  final String restarea;
-  final String locInicio;
-  final String locFim;
-  final int locStatus;
-  final int delmin;
-  final int locmin;
-  final String feijao;
-//  static const Horas horas;
+  Restaurante(
+      {this.restid = 0,
+      this.cardapioid = 0,
+      this.cardapiolocid = 0,
+      this.restNome = "",
+      this.restCep = "",
+      this.restEnde = "",
+      this.restBairro = "",
+      this.restCid = "",
+      this.restUf = "",
+      this.cnpj = "",
+      this.restInicio = "",
+      this.restFim = "",
+      this.tempo = 0,
+      this.txEnt = 0,
+      this.pgtoCod = "",
+      this.restarea = "",
+      this.locInicio = "",
+      this.locFim = "",
+      this.locStatus = 0,
+      this.delmin = 0,
+      this.locmin = 0,
+      this.feijao = "",
+      required this.horas});
 
-  Restaurante({
-    this.restid = 0,
-    this.cardapioid = 0,
-    this.cardapiolocid = 0,
-    this.restNome = "",
-    this.restCep = "",
-    this.restEnde = "",
-    this.restBairro = "",
-    this.restCid = "",
-    this.restUf = "",
-    this.cnpj = "",
-    this.restInicio = "",
-    this.restFim = "",
-    this.Tempo = 0,
-    this.TxEnt = 0,
-    this.pgtoCod = "",
-    this.restarea = "",
-    this.locInicio = "",
-    this.locFim = "",
-    this.locStatus = 0,
-    this.feijao = "",
-    this.delmin = 0,
-    this.locmin = 0,
-    //  this.horas = Horas.fromJson(json).dia
-  });
+  int restid;
+  int cardapioid;
+  int cardapiolocid;
+  String restNome;
+  String restCep;
+  String restEnde;
+  String restBairro;
+  String restCid;
+  String restUf;
+  String cnpj;
+  String restInicio;
+  String restFim;
+  int tempo;
+  int txEnt;
+  String pgtoCod;
+  String restarea;
+  String locInicio;
+  String locFim;
+  int locStatus;
+  int delmin;
+  int locmin;
+  String feijao;
+  List<Hora> horas;
 
-  factory Restaurante.fromJson(Map<String, dynamic> json) {
-    return Restaurante(
-      restid: json['restid'] as int,
-      cardapioid: json['cardapioid'],
-      cardapiolocid: json['cardapiolocid'],
-      restNome: json['restNome'] as String,
-      restCep: json['restCep'],
-      restEnde: json['restEnde'],
-      restBairro: json['restBairro'],
-      restCid: json['restCid'],
-      restUf: json['restUf'],
-      cnpj: json['cnpj'],
-      restInicio: json['restInicio'],
-      restFim: json['restFim'],
-      Tempo: json['Tempo'],
-      TxEnt: json['TxEnt'],
-      pgtoCod: json['pgtoCod'],
-      restarea: json['restarea'],
-      locInicio: json['locInicio'],
-      locFim: json['locFim'],
-      locStatus: json['locStatus'],
-      feijao: json['feijao'],
-      delmin: json['delmin'],
-      locmin: json['locmin'],
-//       horas: json['horas']
-    );
-  }
+  factory Restaurante.fromJson(Map<String, dynamic> json) => Restaurante(
+        restid: json["restid"],
+        cardapioid: json["cardapioid"],
+        cardapiolocid: json["cardapiolocid"],
+        restNome: json["restNome"],
+        restCep: json["restCep"],
+        restEnde: json["restEnde"],
+        restBairro: json["restBairro"],
+        restCid: json["restCid"],
+        restUf: json["restUf"],
+        cnpj: json["cnpj"],
+        restInicio: json["restInicio"],
+        restFim: json["restFim"],
+        tempo: json["Tempo"],
+        txEnt: json["TxEnt"],
+        pgtoCod: json["pgtoCod"],
+        restarea: json["restarea"],
+        locInicio: json["locInicio"],
+        locFim: json["locFim"],
+        locStatus: json["locStatus"],
+        delmin: json["delmin"],
+        locmin: json["locmin"],
+        feijao: json["feijao"],
+        horas: List<Hora>.from(json["horas"].map((x) => Hora.fromJson(x))),
+      );
+
+  Map<String, dynamic> jsonDecode(jsonString) => {
+        "restid": restid,
+        "cardapioid": cardapioid,
+        "cardapiolocid": cardapiolocid,
+        "restNome": restNome,
+        "restCep": restCep,
+        "restEnde": restEnde,
+        "restBairro": restBairro,
+        "restCid": restCid,
+        "restUf": restUf,
+        "cnpj": cnpj,
+        "restInicio": restInicio,
+        "restFim": restFim,
+        "Tempo": tempo,
+        "TxEnt": txEnt,
+        "pgtoCod": pgtoCod,
+        "restarea": restarea,
+        "locInicio": locInicio,
+        "locFim": locFim,
+        "locStatus": locStatus,
+        "delmin": delmin,
+        "locmin": locmin,
+        "feijao": feijao,
+        "horas": List<dynamic>.from(horas.map((x) => x.toJson())),
+      };
+
+  Object? toJson() {}
 }
 
-class Horas {
-  int dia = 0;
-  String inicio = "";
-  String fim = "";
+class Hora {
+  Hora({
+    this.dia = 0,
+    this.abre = "",
+    this.fecha = "",
+  });
 
-  Horas({this.dia = 0, this.inicio = "", this.fim = ""});
+  int dia;
+  String abre;
+  String fecha;
 
-  factory Horas.fromJson(Map<String, dynamic> json) {
-    return Horas(
-      dia: json['dia'],
-      inicio: json['inicio'],
-      fim: json['fim'],
-    );
-  }
+  factory Hora.fromJson(Map<String, dynamic> json) => Hora(
+        dia: json["dia"],
+        abre: json["abre"],
+        fecha: json["fecha"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "dia": dia,
+        "abre": abre,
+        "fecha": fecha,
+      };
 }

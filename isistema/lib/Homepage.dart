@@ -2,17 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:isistema/GetHoras.dart';
 import 'package:isistema/GetPostPlaceholder.dart';
 import 'package:isistema/GetRest.dart';
+// import 'package:isistema/test.dart';
 
-/*class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext ctxt) {
-    return new MaterialApp(
-      home: new Text('data'),
-    );
-  }
-}*/
-
-//Página Principal
+///Página Principal do aplicativo
+///Aqui estaram as opções do usuário para interagir com a API
+///
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -51,6 +45,23 @@ class Home extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(12, 6, 12, 6),
                 child: TextButton(
                   child: Text(
+                    'Lista de Restaurantes',
+                    style: TextStyle(color: Colors.black, fontSize: 20.0),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (ctxt) => new RestauranteApp()));
+                  },
+                ),
+              )),
+          Container(
+              color: Colors.white10,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(12, 6, 12, 6),
+                child: TextButton(
+                  child: Text(
                     'Lista de Horas',
                     style: TextStyle(color: Colors.black, fontSize: 20.0),
                   ),
@@ -68,7 +79,7 @@ class Home extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(12, 6, 12, 6),
                 child: TextButton(
                   child: Text(
-                    'Lista de Texto (Teste)',
+                    'Lista de Texto',
                     style: TextStyle(color: Colors.black, fontSize: 20.0),
                   ),
                   onPressed: () {
@@ -85,74 +96,17 @@ class Home extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(12, 6, 12, 6),
                 child: TextButton(
                   child: Text(
-                    'Lista de Restaurantes',
+                    'Widget Teste',
                     style: TextStyle(color: Colors.black, fontSize: 20.0),
                   ),
                   onPressed: () {
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (ctxt) => new RestauranteApp()));
+                            builder: (ctxt) => new ListaHoras()));
                   },
                 ),
               ))
         ]));
-  }
-}
-
-class ListaHoras extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Scaffold(
-      appBar: new AppBar(title: new Text("isistema"), actions: <Widget>[
-        FlatButton(
-          textColor: Colors.black,
-          onPressed: () {
-            Navigator.push(
-                context, new MaterialPageRoute(builder: (ctxt) => new Home()));
-          },
-          child: Text("API"),
-          shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-        ),
-      ]),
-    );
-    return Center(
-      child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.list_alt_sharp),
-              title: Text('Título'),
-              subtitle: Text('Lista'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: const Text('Editar'),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            //futuro Puthoras
-                            builder: (ctxt) => new Gethoras()));
-                  },
-                ),
-                const SizedBox(width: 8),
-                TextButton(
-                  child: const Text('Voltar'),
-                  onPressed: () {
-                    Navigator.push(context,
-                        new MaterialPageRoute(builder: (ctxt) => new Home()));
-                  },
-                ),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

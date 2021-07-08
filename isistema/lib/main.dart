@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:isistema/Homepage.dart';
 
-void main() => runApp(MyApp());
-final ThemeData themeData = ThemeData(
-  canvasColor: Colors.redAccent,
-);
+///Apenas inícia o App e encaminha para a Homepage
+
+void main() {
+  runApp(MyApp());
+  final ThemeData themeData = ThemeData(
+    canvasColor: Colors.redAccent,
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
