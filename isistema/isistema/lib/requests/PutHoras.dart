@@ -34,10 +34,14 @@ class HttpService extends State<restid> {
 final String url =
     "https://thingproxy.freeboard.io/fetch/http://rede.jgracia.com.br/esistema/api/restaurante/hora/";
 
-Future<List<ListHora>> getHora(restid) async {
-  Response res = await http.get(
-    Uri.parse(url + "$restid"),
-  );
+Future<List<ListHora>> putHora(restid) async {
+  Response res = await http.put(Uri.parse(url + "$restid"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'restid': restid,
+      }));
   if (res.statusCode == 200) {
     List<dynamic> body = jsonDecode("[" + res.body + "]");
 
@@ -54,10 +58,10 @@ Future<List<ListHora>> getHora(restid) async {
 }
 
 ///Widget responsável por criar a tela principal
-///Puxando o Widget de SideMenu e _HoraGetState
+///Puxando o Widget de SideMenu e _HoraPutState
 ///Colocando-os na mesma tela
 
-class MainScreenHora extends StatelessWidget {
+class MainScreenPutHora extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +76,7 @@ class MainScreenHora extends StatelessWidget {
               ),
             Expanded(
               flex: 5,
-              child: HoraGet(),
+              child: HoraPut(),
             ),
           ],
         ),
@@ -81,18 +85,35 @@ class MainScreenHora extends StatelessWidget {
   }
 }
 
-class HoraGet extends StatefulWidget {
-  HoraGet({Key? key}) : super(key: key);
+class Edit extends StatefulWidget {
+  Edit({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _HoraGetState();
+    return _HoraPutState();
+  }
+}
+
+class _EditState extends State<Edit> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
+  }
+}
+
+class HoraPut extends StatefulWidget {
+  HoraPut({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _HoraPutState();
   }
 }
 
 ///Widget de visualização da resposta
-class _HoraGetState extends State<HoraGet> {
+class _HoraPutState extends State<HoraPut> {
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
 
   get restid => _controller.text;
   @override
@@ -111,7 +132,7 @@ class _HoraGetState extends State<HoraGet> {
                 setState(
                   () {
                     Future<List<ListHora>> _futureId =
-                        getHora(_controller.text);
+                        putHora(_controller.text);
                   },
                 );
               },
@@ -119,48 +140,52 @@ class _HoraGetState extends State<HoraGet> {
             ),
           ]),
       body: FutureBuilder(
-        future: getHora(_controller.text),
+        future: putHora(_controller.text),
         builder:
             (BuildContext context, AsyncSnapshot<List<ListHora>> snapshot) {
           if (snapshot.hasData) {
             List<ListHora>? hora = snapshot.data;
             return ListView(
               children: hora!
-                  .map(
-                    (ListHora hora) => ListTile(
-                        title: Text('Id do Restaurante : '
-                            " ${hora.restid}\n"),
-                        subtitle: Text('Horários:\n'
-                            " Dia : ${hora.horas[0].dia}\n"
-                            " Abre : ${hora.horas[0].abre}\n"
-                            " Fecha : ${hora.horas[0].fecha}\n"
-                            "\n"
-                            " Dia : ${hora.horas[1].dia}\n"
-                            " Abre : ${hora.horas[1].abre}\n"
-                            " Fecha : ${hora.horas[1].fecha}\n"
-                            "\n"
-                            " Dia : ${hora.horas[2].dia}\n"
-                            " Abre : ${hora.horas[2].abre}\n"
-                            " Fecha : ${hora.horas[2].fecha}\n"
-                            "\n"
-                            " Dia : ${hora.horas[3].dia}\n"
-                            " Abre : ${hora.horas[3].abre}\n"
-                            " Fecha : ${hora.horas[3].fecha}\n"
-                            "\n"
-                            " Dia : ${hora.horas[4].dia}\n"
-                            " Abre : ${hora.horas[4].abre}\n"
-                            " Fecha : ${hora.horas[4].fecha}\n"
-                            "\n"
-                            " Dia : ${hora.horas[5].dia}\n"
-                            " Abre : ${hora.horas[5].abre}\n"
-                            " Fecha : ${hora.horas[5].fecha}\n"
-                            "\n"
-                            " Dia : ${hora.horas[6].dia}\n"
-                            " Abre : ${hora.horas[6].abre}\n"
-                            " Fecha : ${hora.horas[6].fecha}\n"
-                            "\n"
-                            "")),
-                  )
+                  .map((ListHora hora) => Card(
+                        child: ListTile(
+                            title: new TextField(
+                              controller: _controller2,
+                              decoration: new InputDecoration(
+                                  labelText: "ID do restaurante"),
+                              keyboardType: TextInputType.number,
+                            ),
+                            subtitle: Text('Horários:\n'
+                                " Dia : ${hora.horas[0].dia}\n"
+                                " Abre : ${hora.horas[0].abre}\n"
+                                " Fecha : ${hora.horas[0].fecha}\n"
+                                "\n"
+                                " Dia : ${hora.horas[1].dia}\n"
+                                " Abre : ${hora.horas[1].abre}\n"
+                                " Fecha : ${hora.horas[1].fecha}\n"
+                                "\n"
+                                " Dia : ${hora.horas[2].dia}\n"
+                                " Abre : ${hora.horas[2].abre}\n"
+                                " Fecha : ${hora.horas[2].fecha}\n"
+                                "\n"
+                                " Dia : ${hora.horas[3].dia}\n"
+                                " Abre : ${hora.horas[3].abre}\n"
+                                " Fecha : ${hora.horas[3].fecha}\n"
+                                "\n"
+                                " Dia : ${hora.horas[4].dia}\n"
+                                " Abre : ${hora.horas[4].abre}\n"
+                                " Fecha : ${hora.horas[4].fecha}\n"
+                                "\n"
+                                " Dia : ${hora.horas[5].dia}\n"
+                                " Abre : ${hora.horas[5].abre}\n"
+                                " Fecha : ${hora.horas[5].fecha}\n"
+                                "\n"
+                                " Dia : ${hora.horas[6].dia}\n"
+                                " Abre : ${hora.horas[6].abre}\n"
+                                " Fecha : ${hora.horas[6].fecha}\n"
+                                "\n"
+                                "")),
+                      ))
                   .toList(),
             );
           } else {

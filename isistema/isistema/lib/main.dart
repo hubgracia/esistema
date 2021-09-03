@@ -10,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  //Raiz do aplicativo
+  //Raiz do aplicativo e seleção de tema
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,8 +18,11 @@ class MyApp extends StatelessWidget {
       title: 'Isistema',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.white, displayColor: Colors.white),
+        textTheme:
+            GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+        ),
         canvasColor: secondaryColor,
       ),
       home: MultiProvider(

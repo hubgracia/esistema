@@ -1,4 +1,4 @@
-import 'package:admin/models/models.dart';
+import 'package:admin/models/restmodel.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
@@ -32,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
                           'Giraffas Isistema API é o conjunto de APIs para inclusão no Sistema Delivery©'
                           ' de cadastros de usuários, com endereços validos de entrega, e seus pedidos delivery.'
                           ' Esse conjunto de APIs partiu do conjunto genérico "Giraffas Delivery ECommerce API na v1.0" para então ser customizado com objetivo a integração com Sistema Call Center',
-                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                          //          style: TextStyle(color: Colors.black, fontSize: 20.0),
                         ),
                       //  )
                     ],
@@ -44,11 +44,10 @@ class DashboardScreen extends StatelessWidget {
                   Expanded(
                       flex: 10,
                       child: Text(
-                          'Giraffas Isistema API é o conjunto de APIs para inclusão no Sistema Delivery©'
+                          '\n\nGiraffas Isistema API é o conjunto de APIs para inclusão no Sistema Delivery©'
                           '\nde cadastros de usuários, com endereços validos de entrega, e seus pedidos delivery.'
                           '\nEsse conjunto de APIs partiu do conjunto genérico "Giraffas Delivery \nECommerce API na v1.0" para então ser customizado com objetivo a integração com Sistema Call Center',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 20.0))),
+                          style: TextStyle(fontSize: 20.0))),
               ],
             )
           ],

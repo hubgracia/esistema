@@ -1,11 +1,10 @@
 import 'package:admin/Requests/GetHoras.dart';
 import 'package:admin/Requests/GetRest.dart';
+import 'package:admin/Requests/PutHoras.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-//import 'package:admin/'
 import '../../../main.dart';
-import '../main_screen.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -21,7 +20,7 @@ class SideMenu extends StatelessWidget {
             child: Image.asset("assets/images/logo.png"),
           ),
           DrawerListTile(
-            title: "Página Principal",
+            title: "Principal",
             svgSrc: "assets/icons/menu_dashbord.svg",
             press: () {
               Navigator.push(context,
@@ -30,25 +29,47 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             title: "Lista todos Restaurantes",
-            svgSrc: "",
+            svgSrc: "assets/icons/Search.svg",
             press: () {},
           ),
           DrawerListTile(
             title: "Informações do Restaurante",
-            svgSrc: "",
+            svgSrc: "assets/icons/Search.svg",
             press: () {
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (ctxt) => new IdSelectRest()));
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (ctxt) => new MainScreenRest()));
+            },
+          ),
+          DrawerListTile(
+            title: "Horários do Restaurante",
+            svgSrc: "assets/icons/Search.svg",
+            press: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (ctxt) => new MainScreenHora()));
             },
           ),
           DrawerListTile(
             title: "Editar horas do Restaurante",
-            svgSrc: "",
+            svgSrc: "assets/icons/Search.svg",
             press: () {
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (ctxt) => new IdSelectHora()));
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (ctxt) => new MainScreenPutHora()));
             },
           ),
+          /*     DrawerListTile(
+            title: "Teste",
+            svgSrc: "assets/icons/Search.svg",
+            press: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (ctxt) => new TestApp()));
+            },
+          ),*/
         ],
       ),
     );

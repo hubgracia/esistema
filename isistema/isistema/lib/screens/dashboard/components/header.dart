@@ -27,10 +27,6 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        Expanded(
-            flex: 3,
-            child: Text('Isistema',
-                style: TextStyle(color: Colors.white, fontSize: 20.0)))
       ],
     );
   }

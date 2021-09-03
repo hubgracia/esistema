@@ -112,7 +112,7 @@ class Restaurante {
   Object? toJson() {}
 }
 
-class  Hora {
+class Hora {
   Hora({
     this.dia = 0,
     this.abre = "error",
@@ -139,3 +139,56 @@ class  Hora {
 Hora horasFromJson(String str) => Hora.fromJson(json.decode(str));
 
 String horasToJson(Hora data) => json.encode(data.toJson());
+// To parse this JSON data, do
+//
+//     final hora = horaFromJson(jsonString);
+
+Hora horaFromJson(String str) => Hora.fromJson(json.decode(str));
+
+String horaToJson(Hora data) => json.encode(data.toJson());
+/*
+class Hora {
+  Hora({this.restid = 0, this.cardapioid = 0, required this.horas});
+
+  int restid;
+  int cardapioid;
+  List<HoraElement> horas;
+
+  factory Hora.fromJson(Map<String, dynamic> json) => Hora(
+        restid: json["restid"],
+        cardapioid: json["cardapioid"],
+        horas: List<HoraElement>.from(
+            json["horas"].map((x) => HoraElement.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "restid": restid,
+        "cardapioid": cardapioid,
+        "horas": List<dynamic>.from(horas.map((x) => x.toJson())),
+      };
+}
+
+class HoraElement {
+  HoraElement({
+    this.dia = 0,
+    this.abre = "",
+    this.fecha = "",
+  });
+
+  int dia;
+  String abre;
+  String fecha;
+
+  factory HoraElement.fromJson(Map<String, dynamic> json) => HoraElement(
+        dia: json["dia"],
+        abre: json["abre"],
+        fecha: json["fecha"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "dia": dia,
+        "abre": abre,
+        "fecha": fecha,
+      };
+}
+*/

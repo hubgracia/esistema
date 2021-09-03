@@ -1,86 +1,41 @@
 import 'dart:convert';
 // import 'dart:io';
-import 'package:admin/controllers/MenuController.dart';
-import 'package:admin/main.dart';
 import 'package:admin/screens/main/components/side_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:admin/Models/models.dart';
+import 'package:admin/Models/restmodel.dart';
 
-import 'package:admin/constants.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:admin/screens/dashboard/components/header.dart';
 import '../responsive.dart';
 
 ///GET request
-class HttpService {
-  ///URL de GET está com um proxy para autorização CORS futuramente ver se é possível criar as autorizações no esistema
-  final String url =
-      "https://thingproxy.freeboard.io/fetch/http://rede.jgracia.com.br/esistema/api/restaurante/120";
+///URL de GET está com um proxy para autorização CORS futuramente ver se é possível criar as autorizações no esistema
+final String url =
+    "https://thingproxy.freeboard.io/fetch/http://rede.jgracia.com.br/esistema/api/restaurante/";
 
-  Future<List<Restaurante>> getRest() async {
-    Response res = await http.get(Uri.parse(url));
-    if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode("[" + res.body + "]");
+Future<List<Restaurante>> getRest(restid) async {
+  Response res = await http.get(
+    Uri.parse(url + "$restid"),
+  );
+  if (res.statusCode == 200) {
+    List<dynamic> body = jsonDecode("[" + res.body + "]");
 
-      List<Restaurante> rest = body
-          .map(
-            (dynamic item) => Restaurante.fromJson(item),
-          )
-          .toList();
+    List<Restaurante> rest = body
+        .map(
+          (dynamic item) => Restaurante.fromJson(item),
+        )
+        .toList();
 
-      return rest;
-    } else {
-      throw "Falha na operação";
-    }
-  }
-}
-
-//Widget para selecionar ID do Restaurante
-
-class IdSelectRest extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: new AppBar(title: new Text("Horas"), actions: <Widget>[
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (ctxt) => new MyApp()));
-            },
-            child: Text("Cancelar"),
-            //shape: CircleBorder(side: BorderSide(color: Colors.white)),
-          ),
-        ]),
-        body: new Container(
-          padding: const EdgeInsets.all(280.0),
-          child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new TextField(
-                  decoration:
-                      new InputDecoration(labelText: "ID do restaurante"),
-                  keyboardType: TextInputType.number,
-                ),
-                FlatButton(
-                    child: Text('Confirmar'),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (ctxt) => new MainScreenRest()));
-                    })
-              ]),
-        ));
+    return rest;
+  } else {
+    throw "Falha na operação";
   }
 }
 
 ///Widget responsável por criar a tela principal
-///Puxando o Widget de SideMenu e RestGet
+///Puxando o Widget de SideMenu e _RestGetState
 ///Colocando-os na mesma tela
 
 class MainScreenRest extends StatelessWidget {
@@ -107,18 +62,48 @@ class MainScreenRest extends StatelessWidget {
   }
 }
 
-///Widget de visualização da resposta
-class RestGet extends StatelessWidget {
-  final HttpService httpService = HttpService();
+class RestGet extends StatefulWidget {
+  RestGet({Key? key}) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() {
+    return _RestGetState();
+  }
+}
+
+///Widget de visualização da resposta
+class _RestGetState extends State<RestGet> {
+  final TextEditingController _controller = TextEditingController();
+  //get restid => _IdState(_IdState);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Restaurantes"),
-      ),
+          title: new TextField(
+            controller: _controller,
+            decoration: new InputDecoration(labelText: "ID do restaurante"),
+            keyboardType: TextInputType.number,
+          ),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.white,
+              onPressed: () {
+                setState(
+                  () {
+                    Future<List<Restaurante>> _futureId =
+                        getRest(_controller.text);
+                    /*      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (ctxt) => new RestGet()));*/
+                  },
+                );
+              },
+              child: Text("Buscar Restaurante"),
+            ),
+          ]),
       body: FutureBuilder(
-        future: httpService.getRest(),
+        future: getRest(_controller.text),
         builder:
             (BuildContext context, AsyncSnapshot<List<Restaurante>> snapshot) {
           if (snapshot.hasData) {
@@ -176,20 +161,44 @@ class RestGet extends StatelessWidget {
                             " ${rest.locmin}\n"
                             'feijao :'
                             " ${rest.feijao}\n"
-                            'horas :\n'
-                            " ${rest.horas[0]}\n"
-                            " ${rest.horas[1]}\n"
-                            " ${rest.horas[2]}\n"
-                            " ${rest.horas[3]}\n"
-                            " ${rest.horas[4]}\n"
-                            " ${rest.horas[5]}\n"
-                            " ${rest.horas[6]}\n"
-                            " // ")),
+                            "\n"
+                            'Horários :\n'
+                            "\n"
+                            " Dia : ${rest.horas[0].dia}\n"
+                            " Abre : ${rest.horas[0].abre}\n"
+                            " Fecha : ${rest.horas[0].fecha}\n"
+                            "\n"
+                            " Dia : ${rest.horas[1].dia}\n"
+                            " Abre : ${rest.horas[1].abre}\n"
+                            " Fecha : ${rest.horas[1].fecha}\n"
+                            "\n"
+                            " Dia : ${rest.horas[2].dia}\n"
+                            " Abre : ${rest.horas[2].abre}\n"
+                            " Fecha : ${rest.horas[2].fecha}\n"
+                            "\n"
+                            " Dia : ${rest.horas[3].dia}\n"
+                            " Abre : ${rest.horas[3].abre}\n"
+                            " Fecha : ${rest.horas[3].fecha}\n"
+                            "\n"
+                            " Dia : ${rest.horas[4].dia}\n"
+                            " Abre : ${rest.horas[4].abre}\n"
+                            " Fecha : ${rest.horas[4].fecha}\n"
+                            "\n"
+                            " Dia : ${rest.horas[5].dia}\n"
+                            " Abre : ${rest.horas[5].abre}\n"
+                            " Fecha : ${rest.horas[5].fecha}\n"
+                            "\n"
+                            " Dia : ${rest.horas[6].dia}\n"
+                            " Abre : ${rest.horas[6].abre}\n"
+                            " Fecha : ${rest.horas[6].fecha}\n"
+                            "\n"
+                            "")),
                   )
                   .toList(),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: Text("Insira acima o ID do restaurante desejado."));
           }
         },
       ),
